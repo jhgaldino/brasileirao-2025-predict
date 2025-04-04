@@ -1,0 +1,47 @@
+{
+  "rodada": 2,
+  "competicao": "Campeonato Brasileiro",
+  "ano": 2025,
+  "partidas": [
+    {
+      "mandante": "Ceará SC",
+      "visitante": "Grêmio"
+    },
+    {
+      "mandante": "Corinthians",
+      "visitante": "Vasco da Gama"
+    },
+    {
+      "mandante": "Botafogo",
+      "visitante": "Juventude"
+    },
+    {
+      "mandante": "Atlético-MG",
+      "visitante": "São Paulo"
+    },
+    {
+      "mandante": "Fluminense",
+      "visitante": "Bragantino"
+    },
+    {
+      "mandante": "Internacional",
+      "visitante": "Cruzeiro"
+    },
+    {
+      "mandante": "Mirassol",
+      "visitante": "Fortaleza"
+    },
+    {
+      "mandante": "EC Vitória",
+      "visitante": "Flamengo"
+    },
+    {
+      "mandante": "Sport Recife",
+      "visitante": "Palmeiras"
+    },
+    {
+      "mandante": "Santos",
+      "visitante": "Bahia"
+    }
+  ]
+}
