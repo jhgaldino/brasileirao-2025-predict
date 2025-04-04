@@ -124,18 +124,18 @@ def predict_next_round(model, scaler, next_round_file):
         
         predictions = []
         historical_stats = {
-            'home_possession': 55,
-            'away_possession': 45,
+            'home_possession': 48,
+            'away_possession': 52,
             'home_shots': 12,
-            'away_shots': 8,
-            'home_shots_target': 5,
-            'away_shots_target': 3,
-            'home_corners': 6,
+            'away_shots': 12,
+            'home_shots_target': 4,
+            'away_shots_target': 4,
+            'home_corners': 4,
             'away_corners': 4,
-            'home_passes': 450,
-            'away_passes': 350,
+            'home_passes': 415,
+            'away_passes': 451,
             'home_pass_accuracy': 80,
-            'away_pass_accuracy': 75,
+            'away_pass_accuracy': 82,
             'home_fouls': 15,
             'away_fouls': 15,
             'home_yellow_cards': 2,
@@ -144,10 +144,10 @@ def predict_next_round(model, scaler, next_round_file):
             'away_offsides': 2,
             'home_red_cards': 0,
             'away_red_cards': 0,
-            'home_crosses': 15,
-            'away_crosses': 10,
+            'home_crosses': 17,
+            'away_crosses': 19,
             'home_cross_accuracy': 30,
-            'away_cross_accuracy': 25
+            'away_cross_accuracy': 24
         }
         
         # Verify model classes
