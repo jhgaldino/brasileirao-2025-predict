@@ -1,404 +1,492 @@
 {
-  "rodada": 1,
+  "rodadas": [
+    {
+      "numero": 1,
+      "partidas": [
+        {
+          "partida": {
+            "mandante": "Juventude",
+            "visitante": "EC Vitória",
+            "placar": {
+              "mandante": 2,
+              "visitante": 0
+            }
+          },
+          "estatisticas": {
+            "Juventude": {
+              "chutes": 9,
+              "chutes_a_gol": 4,
+              "posse_de_bola": "35%",
+              "passes": 298,
+              "precisao_de_passe": "78%",
+              "faltas": 16,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 0,
+              "escanteios": 3,
+              "cruzamentos": 12,
+              "precisao_cruzamento": "17%"
+            },
+            "EC Vitória": {
+              "chutes": 14,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "65%",
+              "passes": 533,
+              "precisao_de_passe": "85%",
+              "faltas": 16,
+              "cartoes_amarelos": 4,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 0,
+              "escanteios": 5
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Fortaleza",
+            "visitante": "Fluminense",
+            "placar": {
+              "mandante": 2,
+              "visitante": 0
+            }
+          },
+          "estatisticas": {
+            "Fortaleza": {
+              "chutes": 5,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "29%",
+              "passes": 282,
+              "precisao_de_passe": "76%",
+              "faltas": 16,
+              "cartoes_amarelos": 1,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 4,
+              "escanteios": 4,
+              "cruzamentos": 9,
+              "precisao_cruzamento": "22%"
+            },
+            "Fluminense": {
+              "chutes": 15,
+              "chutes_a_gol": 1,
+              "posse_de_bola": "71%",
+              "passes": 675,
+              "precisao_de_passe": "90%",
+              "faltas": 5,
+              "cartoes_amarelos": 0,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 5,
+              "cruzamentos": 22,
+              "precisao_cruzamento": "22%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Grêmio",
+            "visitante": "Atlético Mineiro",
+            "placar": {
+              "mandante": 2,
+              "visitante": 1
+            }
+          },
+          "estatisticas": {
+            "Grêmio": {
+              "chutes": 12,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "32%",
+              "passes": 268,
+              "precisao_de_passe": "73%",
+              "faltas": 19,
+              "cartoes_amarelos": 4,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 1,
+              "cruzamentos": 11,
+              "precisao_cruzamento": "36%"
+            },
+            "Atlético Mineiro": {
+              "chutes": 22,
+              "chutes_a_gol": 7,
+              "posse_de_bola": "68%",
+              "passes": 563,
+              "precisao_de_passe": "84%",
+              "faltas": 5,
+              "cartoes_amarelos": 0,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 4,
+              "escanteios": 11,
+              "cruzamentos": 24,
+              "precisao_cruzamento": "13%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "São Paulo FC",
+            "visitante": "Sport Recife",
+            "placar": {
+              "mandante": 1,
+              "visitante": 0
+            }
+          },
+          "estatisticas": {
+            "São Paulo FC": {
+              "chutes": 16,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "65%",
+              "passes": 529,
+              "precisao_de_passe": "87%",
+              "faltas": 17,
+              "cartoes_amarelos": 0,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 6,
+              "cruzamentos": 20,
+              "precisao_cruzamento": "35%"
+            },
+            "Sport Recife": {
+              "chutes": 8,
+              "chutes_a_gol": 1,
+              "posse_de_bola": "35%",
+              "passes": 305,
+              "precisao_de_passe": "77%",
+              "faltas": 21,
+              "cartoes_amarelos": 2,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 2,
+              "escanteios": 2,
+              "cruzamentos": 60,
+              "precisao_cruzamento": "57%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Cruzeiro",
+            "visitante": "Mirassol",
+            "placar": {
+              "mandante": 2,
+              "visitante": 1
+            }
+          },
+          "estatisticas": {
+            "Cruzeiro": {
+              "chutes": 8,
+              "chutes_a_gol": 2,
+              "posse_de_bola": "44%",
+              "passes": 367,
+              "precisao_de_passe": "77%",
+              "faltas": 18,
+              "cartoes_amarelos": 4,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 2,
+              "cruzamentos": 9,
+              "precisao_cruzamento": "44%"
+            },
+            "Mirassol": {
+              "chutes": 16,
+              "chutes_a_gol": 6,
+              "posse_de_bola": "56%",
+              "passes": 455,
+              "precisao_de_passe": "81%",
+              "faltas": 21,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 2,
+              "escanteios": 6,
+              "cruzamentos": 16,
+              "precisao_cruzamento": "31%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Flamengo",
+            "visitante": "Internacional",
+            "placar": {
+              "mandante": 1,
+              "visitante": 1
+            }
+          },
+          "estatisticas": {
+            "Flamengo": {
+              "chutes": 19,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "63%",
+              "passes": 534,
+              "precisao_de_passe": "88%",
+              "faltas": 10,
+              "cartoes_amarelos": 2,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 5,
+              "escanteios": 4,
+              "cruzamentos": 18,
+              "precisao_cruzamento": "50%"
+            },
+            "Internacional": {
+              "chutes": 5,
+              "chutes_a_gol": 1,
+              "posse_de_bola": "37%",
+              "passes": 322,
+              "precisao_de_passe": "79%",
+              "faltas": 17,
+              "cartoes_amarelos": 4,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 2,
+              "cruzamentos": 9,
+              "precisao_cruzamento": "22%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Palmeiras",
+            "visitante": "Botafogo",
+            "placar": {
+              "mandante": 0,
+              "visitante": 0
+            }
+          },
+          "estatisticas": {
+            "Palmeiras": {
+              "chutes": 13,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "59%",
+              "passes": 485,
+              "precisao_de_passe": "89%",
+              "faltas": 18,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 2,
+              "cruzamentos": 27,
+              "precisao_cruzamento": "30%"
+            },
+            "Botafogo": {
+              "chutes": 13,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "41%",
+              "passes": 357,
+              "precisao_de_passe": "80%",
+              "faltas": 22,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 0,
+              "escanteios": 2,
+              "cruzamentos": 14,
+              "precisao_cruzamento": "36%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Vasco da Gama",
+            "visitante": "Santos",
+            "placar": {
+              "mandante": 2,
+              "visitante": 1
+            }
+          },
+          "estatisticas": {
+            "Vasco da Gama": {
+              "chutes": 12,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "54%",
+              "passes": 472,
+              "precisao_de_passe": "85%",
+              "faltas": 11,
+              "cartoes_amarelos": 1,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 2,
+              "cruzamentos": 15,
+              "precisao_cruzamento": "33%"
+            },
+            "Santos": {
+              "chutes": 11,
+              "chutes_a_gol": 2,
+              "posse_de_bola": "46%",
+              "passes": 407,
+              "precisao_de_passe": "85%",
+              "faltas": 12,
+              "cartoes_amarelos": 1,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 0,
+              "escanteios": 3,
+              "cruzamentos": 20,
+              "precisao_cruzamento": "20%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Bahia",
+            "visitante": "Corinthians",
+            "placar": {
+              "mandante": 1,
+              "visitante": 1
+            }
+          },
+          "estatisticas": {
+            "Bahia": {
+              "chutes": 14,
+              "chutes_a_gol": 5,
+              "posse_de_bola": "41%",
+              "passes": 411,
+              "precisao_de_passe": "86%",
+              "faltas": 16,
+              "cartoes_amarelos": 2,
+              "cartoes_vermelhos": 1,
+              "impedimentos": 1,
+              "escanteios": 3,
+              "cruzamentos": 14,
+              "precisao_cruzamento": "14%"
+            },
+            "Corinthians": {
+              "chutes": 9,
+              "chutes_a_gol": 4,
+              "posse_de_bola": "59%",
+              "passes": 577,
+              "precisao_de_passe": "90%",
+              "faltas": 15,
+              "cartoes_amarelos": 2,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 5,
+              "cruzamentos": 23,
+              "precisao_cruzamento": "9%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "RB Bragantino",
+            "visitante": "Ceará",
+            "placar": {
+              "mandante": 2,
+              "visitante": 2
+            }
+          },
+          "estatisticas": {
+            "RB Bragantino": {
+              "chutes": 18,
+              "chutes_a_gol": 7,
+              "posse_de_bola": "63%",
+              "passes": 505,
+              "precisao_de_passe": "82%",
+              "faltas": 14,
+              "cartoes_amarelos": 1,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 2,
+              "escanteios": 9,
+              "cruzamentos": 36,
+              "precisao_cruzamento": "28%"
+            },
+            "Ceará": {
+              "chutes": 13,
+              "chutes_a_gol": 6,
+              "posse_de_bola": "37%",
+              "passes": 318,
+              "precisao_de_passe": "71%",
+              "faltas": 13,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 2,
+              "cruzamentos": 9,
+              "precisao_cruzamento": "33%"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "numero": 2,
+      "partidas": [
+        {
+          "partida": {
+            "mandante": "Ceará SC",
+            "visitante": "Grêmio",
+            "placar": {
+              "mandante": 2,
+              "visitante": 0
+            }
+          },
+          "estatisticas": {
+            "Ceará SC": {
+              "chutes": 12,
+              "chutes_a_gol": 6,
+              "posse_de_bola": "38%",
+              "passes": 240,
+              "precisao_de_passe": "74%",
+              "faltas": 9,
+              "cartoes_amarelos": 1,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 3,
+              "escanteios": 3,
+              "cruzamentos": 21,
+              "precisao_cruzamento": "24%"
+            },
+            "Grêmio": {
+              "chutes": 12,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "62%",
+              "passes": 396,
+              "precisao_de_passe": "81%",
+              "faltas": 18,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 3,
+              "escanteios": 9,
+              "cruzamentos": 27,
+              "precisao_cruzamento": "19%"
+            }
+          }
+        },
+        {
+          "partida": {
+            "mandante": "Corinthians",
+            "visitante": "Vasco da Gama",
+            "placar": {
+            }
+          },
+          "estatisticas": {
+            "Corinthians": {
+              "chutes": 6,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "54%",
+              "passes": 475,
+              "precisao_de_passe": "88%",
+              "faltas": 18,
+              "cartoes_amarelos": 3,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 1,
+              "cruzamentos": 10,
+              "precisao_cruzamento": "30%"
+            },
+            "Vasco da Gama": {
+              "chutes": 10,
+              "chutes_a_gol": 3,
+              "posse_de_bola": "46%",
+              "passes": 413,
+              "precisao_de_passe": "87%",
+              "faltas": 16,
+              "cartoes_amarelos": 2,
+              "cartoes_vermelhos": 0,
+              "impedimentos": 1,
+              "escanteios": 4,
+              "cruzamentos": 19,
+              "precisao_cruzamento": "21%"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
 
-"partidas": [
-  {
-    "partida": {
-    "mandante": "Juventude",
-    "visitante": "EC Vitória",
-    "placar": {
-      "mandante": 2,
-      "visitante": 0
-    }
-  },
-  "estatisticas": {
-    "Juventude": {
-      "chutes": 9,
-      "chutes_a_gol": 4,
-      "posse_de_bola": "35%",
-      "passes": 298,
-      "precisao_de_passe": "78%",
-      "faltas": 16,
-      "cartoes_amarelos": 3,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 0,
-      "escanteios": 3,
-      "cruzamentos": 12,
-      "precisao_cruzamento": "17%"
-    },
-    "EC Vitória": {
-      "chutes": 14,
-      "chutes_a_gol": 5,
-      "posse_de_bola": "65%",
-      "passes": 533,
-      "precisao_de_passe": "85%",
-      "faltas": 16,
-      "cartoes_amarelos": 4,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 0,
-      "escanteios": 5
-    }
-  }
-},
-{
-  "partida": {
-    "mandante": "Fortaleza",
-    "visitante": "Fluminense",
-    "placar": {
-      "mandante": 2,
-      "visitante": 0
-    }
-  },
-  "estatisticas": {
-    "Fortaleza": {
-      "chutes": 5,
-      "chutes_a_gol": 3,
-      "posse_de_bola": "29%",
-      "passes": 282,
-      "precisao_de_passe": "76%",
-      "faltas": 16,
-      "cartoes_amarelos": 1,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 4,
-      "escanteios": 4,
-      "cruzamentos": 9,
-      "precisao_cruzamento": "22%"
-    },
-    "Fluminense": {
-      "chutes": 15,
-      "chutes_a_gol": 1,
-      "posse_de_bola": "71%",
-      "passes": 675,
-      "precisao_de_passe": "90%",
-      "faltas": 5,
-      "cartoes_amarelos": 0,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 1,
-      "escanteios": 5,
-      "cruzamentos": 22,
-      "precisao_cruzamento": "22%"
-    }
-  }
-},
-{
-  "partida": {
-    "mandante": "Grêmio",
-    "visitante": "Atlético Mineiro",
-    "placar": {
-      "mandante": 2,
-      "visitante": 1
-    }
-  },
-  "estatisticas": {
-    "Grêmio": {
-      "chutes": 12,
-      "chutes_a_gol": 5,
-      "posse_de_bola": "32%",
-      "passes": 268,
-      "precisao_de_passe": "73%",
-      "faltas": 19,
-      "cartoes_amarelos": 4,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 1,
-      "escanteios": 1,
-      "cruzamentos": 11,
-      "precisao_cruzamento": "36%"
-    },
-    "Atlético Mineiro": {
-      "chutes": 22,
-      "chutes_a_gol": 7,
-      "posse_de_bola": "68%",
-      "passes": 563,
-      "precisao_de_passe": "84%",
-      "faltas": 5,
-      "cartoes_amarelos": 0,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 4,
-      "escanteios": 11,
-      "cruzamentos": 24,
-      "precisao_cruzamento": "13%"
-    }
-  }
-},
-{
-  "partida": {
-    "mandante": "São Paulo FC",
-    "visitante": "Sport Recife",
-    "placar": {
-      "mandante": 1,
-      "visitante": 0
-    }
-  },
-  "estatisticas": {
-    "São Paulo FC": {
-      "chutes": 16,
-      "chutes_a_gol": 3,
-      "posse_de_bola": "65%",
-      "passes": 529,
-      "precisao_de_passe": "87%",
-      "faltas": 17,
-      "cartoes_amarelos": 0,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 1,
-      "escanteios": 6,
-      "cruzamentos": 20,
-      "precisao_cruzamento": "35%"
-    },
-    "Sport Recife": {
-      "chutes": 8,
-      "chutes_a_gol": 1,
-      "posse_de_bola": "35%",
-      "passes": 305,
-      "precisao_de_passe": "77%",
-      "faltas": 21,
-      "cartoes_amarelos": 2,
-      "cartoes_vermelhos": 0,
-      "impedimentos": 2,
-      "escanteios": 2,
-      "cruzamentos": 60,
-      "precisao_cruzamento": "57%"
-    }
-  }
-},
-{
- "partida": {
-   "mandante": "Cruzeiro",
-   "visitante": "Mirassol",
-   "placar": {
-     "mandante": 2,
-     "visitante": 1
-   }
- },
- "estatisticas": {
-   "Cruzeiro": {
-     "chutes": 8,
-     "chutes_a_gol": 2,
-     "posse_de_bola": "44%",
-     "passes": 367,
-     "precisao_de_passe": "77%",
-     "faltas": 18,
-     "cartoes_amarelos": 4,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 2,
-     "cruzamentos": 9,
-     "precisao_cruzamento": "44%"
-   },
-   "Mirassol": {
-     "chutes": 16,
-     "chutes_a_gol": 6,
-     "posse_de_bola": "56%",
-     "passes": 455,
-     "precisao_de_passe": "81%",
-     "faltas": 21,
-     "cartoes_amarelos": 3,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 2,
-     "escanteios": 6,
-     "cruzamentos": 16,
-     "precisao_cruzamento": "31%"
-   }
- }
-},
-{
- "partida": {
-   "mandante": "Flamengo",
-   "visitante": "Internacional",
-   "placar": {
-     "mandante": 1,
-     "visitante": 1
-   }
- },
- "estatisticas": {
-   "Flamengo": {
-     "chutes": 19,
-     "chutes_a_gol": 5,
-     "posse_de_bola": "63%",
-     "passes": 534,
-     "precisao_de_passe": "88%",
-     "faltas": 10,
-     "cartoes_amarelos": 2,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 5,
-     "escanteios": 4,
-     "cruzamentos": 18,
-     "precisao_cruzamento": "50%"
-   },
-   "Internacional": {
-     "chutes": 5,
-     "chutes_a_gol": 1,
-     "posse_de_bola": "37%",
-     "passes": 322,
-     "precisao_de_passe": "79%",
-     "faltas": 17,
-     "cartoes_amarelos": 4,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 2,
-     "cruzamentos": 9,
-     "precisao_cruzamento": "22%"
-   }
- }
-},
-{
- "partida": {
-   "mandante": "Palmeiras",
-   "visitante": "Botafogo",
-   "placar": {
-     "mandante": 0,
-     "visitante": 0
-   }
- },
- "estatisticas": {
-   "Palmeiras": {
-     "chutes": 13,
-     "chutes_a_gol": 3,
-     "posse_de_bola": "59%",
-     "passes": 485,
-     "precisao_de_passe": "89%",
-     "faltas": 18,
-     "cartoes_amarelos": 3,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 2,
-     "cruzamentos": 27,
-     "precisao_cruzamento": "30%"
-   },
-   "Botafogo": {
-     "chutes": 13,
-     "chutes_a_gol": 5,
-     "posse_de_bola": "41%",
-     "passes": 357,
-     "precisao_de_passe": "80%",
-     "faltas": 22,
-     "cartoes_amarelos": 3,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 0,
-     "escanteios": 2,
-     "cruzamentos": 14,
-     "precisao_cruzamento": "36%"
-   }
- }
-},
-{
- "partida": {
-   "mandante": "Vasco da Gama",
-   "visitante": "Santos",
-   "placar": {
-     "mandante": 2,
-     "visitante": 1
-   }
- },
- "estatisticas": {
-   "Vasco da Gama": {
-     "chutes": 12,
-     "chutes_a_gol": 5,
-     "posse_de_bola": "54%",
-     "passes": 472,
-     "precisao_de_passe": "85%",
-     "faltas": 11,
-     "cartoes_amarelos": 1,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 2,
-     "cruzamentos": 15,
-     "precisao_cruzamento": "33%"
-   },
-   "Santos": {
-     "chutes": 11,
-     "chutes_a_gol": 2,
-     "posse_de_bola": "46%",
-     "passes": 407,
-     "precisao_de_passe": "85%",
-     "faltas": 12,
-     "cartoes_amarelos": 1,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 0,
-     "escanteios": 3,
-     "cruzamentos": 20,
-     "precisao_cruzamento": "20%"
-   }
- }
-},
-{
- "partida": {
-   "mandante": "Bahia",
-   "visitante": "Corinthians",
-   "placar": {
-     "mandante": 1,
-     "visitante": 1
-   }
- },
- "estatisticas": {
-   "Bahia": {
-     "chutes": 14,
-     "chutes_a_gol": 5,
-     "posse_de_bola": "41%",
-     "passes": 411,
-     "precisao_de_passe": "86%",
-     "faltas": 16,
-     "cartoes_amarelos": 2,
-     "cartoes_vermelhos": 1,
-     "impedimentos": 1,
-     "escanteios": 3,
-     "cruzamentos": 14,
-     "precisao_cruzamento": "14%"
-   },
-   "Corinthians": {
-     "chutes": 9,
-     "chutes_a_gol": 4,
-     "posse_de_bola": "59%",
-     "passes": 577,
-     "precisao_de_passe": "90%",
-     "faltas": 15,
-     "cartoes_amarelos": 2,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 5,
-     "cruzamentos": 23,
-     "precisao_cruzamento": "9%"
-   }
- }
-},
-{
- "partida": {
-   "mandante": "RB Bragantino",
-   "visitante": "Ceará",
-   "placar": {
-     "mandante": 2,
-     "visitante": 2
-   }
- },
- "estatisticas": {
-   "RB Bragantino": {
-     "chutes": 18,
-     "chutes_a_gol": 7,
-     "posse_de_bola": "63%",
-     "passes": 505,
-     "precisao_de_passe": "82%",
-     "faltas": 14,
-     "cartoes_amarelos": 1,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 2,
-     "escanteios": 9,
-     "cruzamentos": 36,
-     "precisao_cruzamento": "28%"
-   },
-   "Ceará": {
-     "chutes": 13,
-     "chutes_a_gol": 6,
-     "posse_de_bola": "37%",
-     "passes": 318,
-     "precisao_de_passe": "71%",
-     "faltas": 13,
-     "cartoes_amarelos": 3,
-     "cartoes_vermelhos": 0,
-     "impedimentos": 1,
-     "escanteios": 2,
-     "cruzamentos": 9,
-     "precisao_cruzamento": "33%"
-   }
- }
-}
-]
-}
+
