@@ -186,12 +186,17 @@ def predict_next_round(model, scaler, next_round_file):
         if not hasattr(model, 'classes_') or len(model.classes_) != 3:
             raise ValueError("Model not properly trained with all outcome classes (H/D/A)")
             
+        # Garantir que todas as partidas sejam processadas
         for match in next_round['partidas']:
+            home_team = match['mandante']
+            away_team = match['visitante']
+            
             # Get team classification stats
-            home_stats = get_team_stats_from_table(match['mandante'])
-            away_stats = get_team_stats_from_table(match['visitante'])
+            home_stats = get_team_stats_from_table(home_team)
+            away_stats = get_team_stats_from_table(away_team)
             
             if not home_stats or not away_stats:
+                print(f"Warning: Missing statistics for {home_team} vs {away_team}")
                 continue
                 
             features = np.array([
@@ -250,8 +255,8 @@ def predict_next_round(model, scaler, next_round_file):
             }
             
             predictions.append({
-                'home_team': match['mandante'],
-                'away_team': match['visitante'],
+                'home_team': home_team,
+                'away_team': away_team,
                 'predicted_result': result_map[prediction],
                 'home_win_prob': f"{prob[0]:.2f}",
                 'draw_prob': f"{prob[1]:.2f}",
@@ -259,7 +264,7 @@ def predict_next_round(model, scaler, next_round_file):
             })
         
         return predictions
-    
+        
     except FileNotFoundError:
         print(f"Error: {next_round_file} not found")
         return None
