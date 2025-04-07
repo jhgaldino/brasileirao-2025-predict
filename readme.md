@@ -37,9 +37,3 @@ O arquivo `dataset.json` contém:
 - Métricas de desempenho dos times
 - Atualização após cada rodada
 
-### Como Usar
-1. Clone o repositório
-2. Instale as dependências:
-```bash
-pip install -r requirements.txt
-
