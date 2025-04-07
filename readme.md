@@ -1,18 +1,45 @@
-BR-2025-PREDICT
+# BR-2025-PREDICT
 
-# Predicting the 2025 BR-2025 dataset
-Este repositório contém o código para prever os resultados das partidas da proxima rodada do Campeonato Brasileiro 2025.
-Estou atualizando o repositório com os dados das estatísticas de cada rodada para o dataset json, com isso é possível prever os resultados de cada partida.
+## Previsão de Resultados do Brasileirão 2025
 
-Estou atualizando o dataset com os dados das partidas atraves das estatisticas do google e tambem o [www.flashscore.com.br]
+### Descrição
+Este projeto utiliza Machine Learning para prever resultados das partidas do Campeonato Brasileiro 2025, analisando estatísticas históricas e desempenho dos times.
 
-Se quiser ajudar a atualizar o dataset, fique a vontade para fazer um pull request.
+### Funcionalidades
+- Previsão de resultados (Vitória/Empate/Derrota)
+- Análise de estatísticas completas:
+  - Posse de bola
+  - Finalizações (Total e no gol)
+  - Precisão de passes
+  - Escanteios
+  - Cruzamentos
+  - Faltas
+  - Cartões (Amarelos/Vermelhos)
+  - E muito mais...
+- Integração com dados da classificação
+- Análise de desempenho histórico
 
-Treinando o modelo com dados das rodadas anteriores, o modelo pode ser capaz de prever o se havera vitoria, derrota ou empate de cada time em cada partida.
+### Fonte dos Dados
+- Estatísticas de partidas do Google Sports
+- Dados complementares do [FlashScore](https://www.flashscore.com.br)
+- Classificação e métricas de desempenho dos times
 
-OBS: O modelo não é perfeito e pode não prever os resultados corretamente. É possivel que o modelo melhore coforme novas rodadas forem adicionadas ao dataset.
+### Detalhes Técnicos
+- Classificador Random Forest
+- Features combinando estatísticas de jogo e métricas de desempenho
+- Treinamento com dados históricos de partidas
+- Atualização contínua com novos dados
 
-OBS: Gostaria de fazer isso atraves de api de futebol, mas não consegui encontrar uma que funcione e que tenha acesso gratuito.
+### Dataset
+O arquivo `dataset.json` contém:
+- Resultados das partidas
+- Estatísticas detalhadas dos jogos
+- Métricas de desempenho dos times
+- Atualização após cada rodada
 
-Aceito sugestões de como melhorar o modelo e o dataset.
+### Como Usar
+1. Clone o repositório
+2. Instale as dependências:
+```bash
+pip install -r requirements.txt
 
