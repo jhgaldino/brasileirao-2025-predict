@@ -23,6 +23,14 @@ def calcular_medias():
     stats_visitante = stats_mandante.copy()
     total_jogos = 0
 
+    def get_stat_value(stats, key):
+        if key not in stats:
+            return 0
+        value = stats[key]
+        if isinstance(value, str) and value.endswith('%'):
+            return float(value.strip('%'))
+        return float(value) if value else 0
+
     # Sum all statistics across all rounds
     for rodada in data['rodadas']:
         for partida in rodada['partidas']:
@@ -31,24 +39,30 @@ def calcular_medias():
                 
             total_jogos += 1
             estatisticas = partida['estatisticas']
-            mandante = list(estatisticas.keys())[0]
-            visitante = list(estatisticas.keys())[1]
+            mandante = partida['partida']['mandante']
+            visitante = partida['partida']['visitante']
+
+            # Get the statistics for each team using the team names from the match data
+            mandante_stats = None
+            visitante_stats = None
             
-            def get_stat_value(stats, key):
-                if key not in stats:
-                    return 0
-                value = stats[key]
-                if isinstance(value, str) and value.endswith('%'):
-                    return float(value.strip('%'))
-                return float(value) if value else 0
+            # Find the correct statistics for each team
+            for team_name, team_stats in estatisticas.items():
+                if team_name == mandante:
+                    mandante_stats = team_stats
+                elif team_name == visitante:
+                    visitante_stats = team_stats
             
+            if not mandante_stats or not visitante_stats:
+                continue
+
             # Home team statistics
             for stat in stats_mandante:
-                stats_mandante[stat] += get_stat_value(estatisticas[mandante], stat)
+                stats_mandante[stat] += get_stat_value(mandante_stats, stat)
             
             # Away team statistics
             for stat in stats_visitante:
-                stats_visitante[stat] += get_stat_value(estatisticas[visitante], stat)
+                stats_visitante[stat] += get_stat_value(visitante_stats, stat)
     
     # Calculate averages
     for stat in stats_mandante:

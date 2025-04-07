@@ -1,47 +1,45 @@
 {
-  "rodada": 2,
-  "competicao": "Campeonato Brasileiro",
-  "ano": 2025,
+  "rodada": 3,
   "partidas": [
     {
-      "mandante": "Ceará SC",
-      "visitante": "Grêmio"
+      "mandante": "Juventude",
+      "visitante": "Ceará SC"
     },
     {
-      "mandante": "Corinthians",
-      "visitante": "Vasco da Gama"
+      "mandante": "Bragantino",
+      "visitante": "Botafogo"
     },
     {
-      "mandante": "Botafogo",
-      "visitante": "Juventude"
+      "mandante": "Palmeiras",
+      "visitante": "Corinthians"
     },
     {
-      "mandante": "Atlético-MG",
-      "visitante": "São Paulo"
+      "mandante": "Vasco da Gama",
+      "visitante": "Sport Recife"
     },
     {
-      "mandante": "Fluminense",
-      "visitante": "Bragantino"
+      "mandante": "Bahia",
+      "visitante": "Mirassol"
     },
     {
-      "mandante": "Internacional",
-      "visitante": "Cruzeiro"
-    },
-    {
-      "mandante": "Mirassol",
-      "visitante": "Fortaleza"
-    },
-    {
-      "mandante": "EC Vitória",
+      "mandante": "Grêmio",
       "visitante": "Flamengo"
     },
     {
-      "mandante": "Sport Recife",
-      "visitante": "Palmeiras"
+      "mandante": "São Paulo",
+      "visitante": "Cruzeiro"
     },
     {
-      "mandante": "Santos",
-      "visitante": "Bahia"
+      "mandante": "Fluminense",
+      "visitante": "Santos"
+    },
+    {
+      "mandante": "Fortaleza",
+      "visitante": "Internacional"
+    },
+    {
+      "mandante": "Atlético Mineiro",
+      "visitante": "EC Vitória"
     }
   ]
 }
