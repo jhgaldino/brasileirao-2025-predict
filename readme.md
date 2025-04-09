@@ -35,5 +35,10 @@ O arquivo `dataset.json` contém:
 - Resultados das partidas
 - Estatísticas detalhadas dos jogos
 - Métricas de desempenho dos times
-- Atualização após cada rodada
+- Atualização após cada rodada (feito manualmente após cada rodada do campeonato)
+
+O arquivo `classificacao.json` contém:
+- Classificação atualizada após cada rodada
+- Estatísticas de desempenho dos times
+- Atualização após cada rodada (feito manualmente após cada rodada do campeonato)
 
