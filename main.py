@@ -4,6 +4,7 @@ import json
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
+from imblearn.over_sampling import SMOTE
 
 def load_data():
     try:
@@ -162,12 +163,25 @@ def train_model(X, y):
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
+    # Print class distribution
+    print("Class distribution in training data:")
+    for cls in np.unique(y_train):
+        print(f"{cls}: {np.sum(y_train == cls)}")
+    
+    # Apply SMOTE for oversampling
+    smote = SMOTE(random_state=42, k_neighbors=1)
+    X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+    
+    print("\nClass distribution after SMOTE:")
+    for cls in np.unique(y_train_resampled):
+        print(f"{cls}: {np.sum(y_train_resampled == cls)}")
+    
     scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
+    X_train_scaled = scaler.fit_transform(X_train_resampled)
     X_test_scaled = scaler.transform(X_test)
     
     model = RandomForestClassifier(n_estimators=100, random_state=42)
-    model.fit(X_train_scaled, y_train)
+    model.fit(X_train_scaled, y_train_resampled)
     
     return model, scaler, X_test_scaled, y_test
 
@@ -197,6 +211,7 @@ def predict_next_round(model, scaler, next_round_file):
             
             if not home_stats or not away_stats:
                 print(f"Warning: Missing statistics for {home_team} vs {away_team}")
+                predictions.append(f"{home_team} vs {away_team}: No Prediction")
                 continue
                 
             features = np.array([
@@ -244,6 +259,9 @@ def predict_next_round(model, scaler, next_round_file):
                 ]
             ])
             
+            print(f"\nFeatures for {home_team} vs {away_team}:")
+            print(features)
+            
             features_scaled = scaler.transform(features)
             prediction = model.predict(features_scaled)[0]
             prob = model.predict_proba(features_scaled)[0]
@@ -254,14 +272,7 @@ def predict_next_round(model, scaler, next_round_file):
                 'A': 'Away Win'
             }
             
-            predictions.append({
-                'home_team': home_team,
-                'away_team': away_team,
-                'predicted_result': result_map[prediction],
-                'home_win_prob': f"{prob[0]:.2f}",
-                'draw_prob': f"{prob[1]:.2f}",
-                'away_win_prob': f"{prob[2]:.2f}"
-            })
+            predictions.append(f"{home_team} vs {away_team}: {result_map[prediction]}")
         
         return predictions
         
@@ -303,11 +314,19 @@ def main():
         # Train model
         model, scaler, X_test, y_test = train_model(X, y)
         
+        # Print feature importances
+        importances = model.feature_importances_
+        feature_names = X.columns
+        
+        print("\nFeature importances:")
+        for feature, importance in sorted(zip(feature_names, importances), key=lambda x: x[1], reverse=True):
+            print(f"{feature}: {importance}")
+        
         # Make predictions for next round
         predictions = predict_next_round(model, scaler, 'next_round.json')
         if predictions:
             for pred in predictions:
-                print(f"{pred['home_team']} vs {pred['away_team']}: {pred['predicted_result']}")
+                print(pred)
 
 if __name__ == "__main__":
     main()
