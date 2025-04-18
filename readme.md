@@ -45,16 +45,12 @@ This project uses machine learning to predict the results of Brazilian Série A 
 
 ### Usage
 1.  Clone the repository:
-    ```bash
-    git clone <repository_url>
-    ```
 2.  Install the required Python packages:
     ```bash
     pip install -r requirements.txt
     ```
-    (Create a `requirements.txt` file listing dependencies: pandas, numpy, scikit-learn, imblearn)
 3.  Run the `main.py` script:
-    ```bash
+    ```
     python main.py
     ```
 
