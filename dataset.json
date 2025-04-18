@@ -1534,6 +1534,46 @@
       "precisao_cruzamento": "15%"  
     }
   }
+},
+{
+  "partida": {
+    "mandante": "Cruzeiro",
+    "visitante": "Bahia",
+    "placar": {
+      "mandante": 3,
+      "visitante": 0
+    }
+  },
+  "estatisticas": {
+    "Cruzeiro": {
+      "chutes": 14,
+      "chutes_a_gol": 7,
+      "posse_de_bola": "39%",
+      "passes": 327,
+      "precisao_de_passe": "82%",
+      "faltas": 15,
+      "cartoes_amarelos": 5,
+      "cartoes_vermelhos": 0,
+      "impedimentos": 2,
+      "escanteios": 4,
+      "cruzamentos": 19,            
+      "precisao_cruzamento": "5%"  
+    },
+    "Bahia": {
+      "chutes": 7,
+      "chutes_a_gol": 1,
+      "posse_de_bola": "61%",
+      "passes": 512,
+      "precisao_de_passe": "84%",
+      "faltas": 9,
+      "cartoes_amarelos": 2,
+      "cartoes_vermelhos": 0,
+      "impedimentos": 0,
+      "escanteios": 5,
+      "cruzamentos": 15,            
+      "precisao_cruzamento": "27%"  
+    }
+  }
 }
       ]
     } 
