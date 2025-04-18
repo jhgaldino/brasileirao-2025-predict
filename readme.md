@@ -44,7 +44,7 @@ This project uses machine learning to predict the results of Brazilian Série A 
     - Team performance statistics (points, wins, losses, goal difference, etc.)
 
 ### Usage
-1.  Clone the repository:
+1.  Clone the repository.
 2.  Install the required Python packages:
     ```bash
     pip install -r requirements.txt
