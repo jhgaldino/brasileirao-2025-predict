@@ -1,45 +1,45 @@
 {
-  "rodada": 5,
+  "rodada": 6,
   "partidas": [
     {
-      "mandante": "Corinthians",
-      "visitante": "Sport Recife"
+      "mandante": "Internacional",
+      "visitante": "Juventude"
     },
     {
-      "mandante": "Vasco da Gama",
-      "visitante": "Flamengo"
+      "mandante": "Mirassol",
+      "visitante": "Atlético Mineiro"
     },
     {
-      "mandante": "Grêmio",
-      "visitante": "Internacional"
+      "mandante": "Ceará",
+      "visitante": "São Paulo"
     },
     {
-      "mandante": "Juventude",
-      "visitante": "Mirassol"
+      "mandante": "Sport Recife",
+      "visitante": "Fortaleza"
     },
     {
-      "mandante": "São Paulo",
-      "visitante": "Santos"
+      "mandante": "Botafogo",
+      "visitante": "Fluminense"
     },
     {
-      "mandante": "Atlético Mineiro", 
-      "visitante": "Botafogo"
+      "mandante": "Flamengo",
+      "visitante": "Corinthians"
     },
     {
-      "mandante": "Fluminense",
-      "visitante": "EC Vitória"
+      "mandante": "EC Vitória",
+      "visitante": "Grêmio"
     },
     {
-      "mandante": "Fortaleza",
-      "visitante": "Palmeiras"
+      "mandante": "Palmeiras",
+      "visitante": "Bahia"
     },
     {
-      "mandante": "Bragantino",
-      "visitante": "Cruzeiro"
+      "mandante": "Cruzeiro",
+      "visitante": "Vasco da Gama"
     },
     {
-      "mandante": "Bahia",
-      "visitante": "Ceará" 
+      "mandante": "Santos",
+      "visitante": "Bragantino"
     }
   ]
 }
