@@ -1,45 +1,45 @@
 {
-  "rodada": 9,
+  "rodada": 10,
   "partidas": [
     {
-      "mandante": "Ceará SC",
-      "visitante": "Sport Recife"
-    },
-    {
-      "mandante": "Vasco da Gama",
-      "visitante": "Fortaleza"
+      "mandante": "Fluminense",
+      "visitante": "Vasco da Gama"
     },
     {
       "mandante": "São Paulo",
-      "visitante": "Grêmio"
-    },
-    {
-      "mandante": "Corinthians",
-      "visitante": "Santos"
-    },
-    {
-      "mandante": "Juventude",
-      "visitante": "Fluminense"
-    },
-    {
-      "mandante": "Bahia",
-      "visitante": "EC Vitória"
-    },
-    {
-      "mandante": "Bragantino",
-      "visitante": "Palmeiras"
-    },
-    {
-      "mandante": "Flamengo",
-      "visitante": "Botafogo"
-    },
-    {
-      "mandante": "Internacional",
       "visitante": "Mirassol"
     },
     {
-      "mandante": "Cruzeiro",
-      "visitante": "Atlético Mineiro"
+      "mandante": "Atlético Mineiro",
+      "visitante": "Corinthians"
+    },
+    {
+      "mandante": "Grêmio",
+      "visitante": "Bahia"
+    },
+    {
+      "mandante": "Palmeiras",
+      "visitante": "Flamengo"
+    },
+    {
+      "mandante": "Sport Recife",
+      "visitante": "Internacional"
+    },
+    {
+      "mandante": "EC Vitória",
+      "visitante": "Santos"
+    },
+    {
+      "mandante": "Fortaleza",
+      "visitante": "Cruzeiro"
+    },
+    {
+      "mandante": "Bragantino",
+      "visitante": "Juventude"
+    },
+    {
+      "mandante": "Botafogo",
+      "visitante": "Ceará"
     }
   ]
 }
