@@ -13,33 +13,33 @@
       "gm": 24,
       "gc": 4,
       "sg": 20,
-      "ultimas_5": ["V", "V", "E", "V", "V"]
+      "ultimas_5": ["E", "V", "V", "E", "V"]
     },
     {
       "posicao": 2,
       "clube": "Cruzeiro",
-      "pts": 23,
-      "pj": 11,
+      "pts": 24,
+      "pj": 12,
       "vit": 7,
-      "e": 2,
+      "e": 3,
       "der": 2,
       "gm": 17,
       "gc": 8,
       "sg": 9,
-      "ultimas_5": ["V", "E", "D", "V", "V"]
+      "ultimas_5": ["D", "V", "V", "V", "V"]
     },
     {
       "posicao": 3,
       "clube": "Bragantino",
       "pts": 23,
-      "pj": 11,
+      "pj": 12,
       "vit": 7,
       "e": 2,
-      "der": 2,
+      "der": 3,
       "gm": 14,
-      "gc": 8,
-      "sg": 6,
-      "ultimas_5": ["V", "V", "D", "V", "V"]
+      "gc": 11,
+      "sg": 3,
+      "ultimas_5": ["D", "E", "V", "V", "D"]
     },
     {
       "posicao": 4,
@@ -52,10 +52,23 @@
       "gm": 12,
       "gc": 8,
       "sg": 4,
-      "ultimas_5": ["V", "D", "V", "D", "V"]
+      "ultimas_5": ["V", "V", "V", "D", "D"]
     },
     {
       "posicao": 5,
+      "clube": "Bahia",
+      "pts": 21,
+      "pj": 12,
+      "vit": 6,
+      "e": 3,
+      "der": 3,
+      "gm": 14,
+      "gc": 11,
+      "sg": 3,
+      "ultimas_5": ["V", "D", "V", "V", "V"]
+    },
+    {
+      "posicao": 6,
       "clube": "Fluminense",
       "pts": 20,
       "pj": 11,
@@ -65,10 +78,23 @@
       "gm": 15,
       "gc": 12,
       "sg": 3,
-      "ultimas_5": ["D", "D", "V", "V", "D"]
+      "ultimas_5": ["D", "E", "V", "E", "V"]
     },
     {
-      "posicao": 6,
+      "posicao": 7,
+      "clube": "Atlético-MG",
+      "pts": 20,
+      "pj": 12,
+      "vit": 5,
+      "e": 5,
+      "der": 2,
+      "gm": 13,
+      "gc": 10,
+      "sg": 3,
+      "ultimas_5": ["E", "V", "E", "V", "V"]
+    },
+    {
+      "posicao": 8,
       "clube": "Botafogo",
       "pts": 18,
       "pj": 11,
@@ -78,23 +104,10 @@
       "gm": 14,
       "gc": 7,
       "sg": 7,
-      "ultimas_5": ["V", "D", "V", "E", "V"]
+      "ultimas_5": ["V", "D", "E", "E", "V"]
     },
     {
-      "posicao": 7,
-      "clube": "Bahia",
-      "pts": 18,
-      "pj": 11,
-      "vit": 5,
-      "e": 3,
-      "der": 3,
-      "gm": 11,
-      "gc": 11,
-      "sg": 0,
-      "ultimas_5": ["V", "D", "V", "D", "V"]
-    },
-    {
-      "posicao": 8,
+      "posicao": 9,
       "clube": "Mirassol",
       "pts": 17,
       "pj": 11,
@@ -104,23 +117,36 @@
       "gm": 17,
       "gc": 12,
       "sg": 5,
-      "ultimas_5": ["V", "V", "E", "V", "V"]
-    },
-    {
-      "posicao": 9,
-      "clube": "Atlético-MG",
-      "pts": 17,
-      "pj": 11,
-      "vit": 4,
-      "e": 5,
-      "der": 2,
-      "gm": 11,
-      "gc": 10,
-      "sg": 1,
-      "ultimas_5": ["V", "E", "V", "E", "D"]
+      "ultimas_5": ["D", "V", "V", "E", "V"]
     },
     {
       "posicao": 10,
+      "clube": "Corinthians",
+      "pts": 16,
+      "pj": 12,
+      "vit": 4,
+      "e": 4,
+      "der": 4,
+      "gm": 13,
+      "gc": 15,
+      "sg": -2,
+      "ultimas_5": ["E", "D", "V", "E", "E"]
+    },
+    {
+      "posicao": 11,
+      "clube": "Grêmio",
+      "pts": 16,
+      "pj": 12,
+      "vit": 4,
+      "e": 4,
+      "der": 4,
+      "gm": 12,
+      "gc": 15,
+      "sg": -3,
+      "ultimas_5": ["D", "V", "V", "E", "E"]
+    },
+    {
+      "posicao": 12,
       "clube": "Ceará SC",
       "pts": 15,
       "pj": 11,
@@ -130,111 +156,85 @@
       "gm": 13,
       "gc": 11,
       "sg": 2,
-      "ultimas_5": ["V", "E", "D", "V", "D"]
-    },
-    {
-      "posicao": 11,
-      "clube": "Corinthians",
-      "pts": 15,
-      "pj": 11,
-      "vit": 4,
-      "e": 3,
-      "der": 4,
-      "gm": 12,
-      "gc": 14,
-      "sg": -2,
-      "ultimas_5": ["E", "E", "V", "V", "D"]
-    },
-    {
-      "posicao": 12,
-      "clube": "Grêmio",
-      "pts": 15,
-      "pj": 11,
-      "vit": 4,
-      "e": 3,
-      "der": 4,
-      "gm": 11,
-      "gc": 14,
-      "sg": -3,
-      "ultimas_5": ["D", "D", "V", "D", "V"]
+      "ultimas_5": ["E", "V", "D", "V", "D"]
     },
     {
       "posicao": 13,
-      "clube": "São Paulo",
-      "pts": 12,
-      "pj": 11,
-      "vit": 2,
-      "e": 6,
-      "der": 3,
-      "gm": 9,
-      "gc": 11,
+      "clube": "Vasco da Gama",
+      "pts": 13,
+      "pj": 12,
+      "vit": 4,
+      "e": 1,
+      "der": 7,
+      "gm": 14,
+      "gc": 16,
       "sg": -2,
-      "ultimas_5": ["D", "E", "D", "E", "V"]
+      "ultimas_5": ["V", "D", "D", "D", "V"]
     },
     {
       "posicao": 14,
-      "clube": "Internacional",
-      "pts": 11,
-      "pj": 11,
+      "clube": "São Paulo",
+      "pts": 12,
+      "pj": 12,
       "vit": 2,
-      "e": 5,
+      "e": 6,
       "der": 4,
-      "gm": 12,
-      "gc": 16,
+      "gm": 10,
+      "gc": 14,
       "sg": -4,
-      "ultimas_5": ["D", "D", "E", "E", "D"]
+      "ultimas_5": ["E", "E", "V", "D", "E"]
     },
     {
       "posicao": 15,
-      "clube": "Vasco da Gama",
-      "pts": 10,
-      "pj": 11,
+      "clube": "Santos",
+      "pts": 11,
+      "pj": 12,
       "vit": 3,
-      "e": 1,
+      "e": 2,
       "der": 7,
       "gm": 11,
-      "gc": 15,
-      "sg": -4,
-      "ultimas_5": ["V", "D", "D", "D", "V"]
+      "gc": 14,
+      "sg": -3,
+      "ultimas_5": ["D", "E", "D", "V", "D"]
     },
     {
       "posicao": 16,
       "clube": "EC Vitória",
-      "pts": 10,
-      "pj": 11,
+      "pts": 11,
+      "pj": 12,
       "vit": 2,
-      "e": 4,
+      "e": 5,
       "der": 5,
       "gm": 10,
       "gc": 14,
       "sg": -4,
-      "ultimas_5": ["D", "E", "V", "V", "D"]
+      "ultimas_5": ["V", "D", "D", "E", "E"]
     },
     {
       "posicao": 17,
-      "clube": "Fortaleza",
-      "pts": 10,
-      "pj": 11,
+      "clube": "Internacional",
+      "pts": 11,
+      "pj": 12,
       "vit": 2,
-      "e": 4,
+      "e": 5,
       "der": 5,
-      "gm": 10,
-      "gc": 15,
-      "sg": -5,
-      "ultimas_5": ["V", "D", "D", "D", "E"]
+      "gm": 12,
+      "gc": 18,
+      "sg": -6,
+      "ultimas_5": ["E", "V", "E", "D", "D"]
     },
     {
       "posicao": 18,
-      "clube": "Santos",
-      "pts": 8,
-      "pj": 11,
+      "clube": "Fortaleza",
+      "pts": 10,
+      "pj": 12,
       "vit": 2,
-      "e": 2,
-      "der": 7,
-      "gm": 8,
-      "gc": 12,
-      "sg": -4,
-      "ultimas_5": ["D", "E", "V", "D", "D"]
+      "e": 4,
+      "der": 6,
+      "gm": 12,
+      "gc": 18,
+      "sg": -6,
+      "ultimas_5": ["E", "E", "D", "V", "D"]
     },
     {
       "posicao": 19,
@@ -247,7 +247,7 @@
       "gm": 8,
       "gc": 24,
       "sg": -16,
-      "ultimas_5": ["E", "D", "D", "D", "V"]
+      "ultimas_5": ["D", "E", "D", "D", "D"]
     },
     {
       "posicao": 20,
