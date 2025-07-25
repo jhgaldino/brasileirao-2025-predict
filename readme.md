@@ -10,9 +10,10 @@ This project uses machine learning to predict the results of Brazilian Série A 
 - **Comprehensive Statistics Analysis:** Utilizes a wide range of match statistics, including:
     - Possession
     - Shots (Total and on Target)
-    - Pass Accuracy
+    - Total Passes and Pass Accuracy
     - Corners
-    - Crosses
+    - Total Crosses and Cross Accuracy
+    - Offsides
     - Fouls
     - Yellow and Red Cards
     - And more...
@@ -21,6 +22,7 @@ This project uses machine learning to predict the results of Brazilian Série A 
 - **Derived Features:** Includes derived features such as strength difference, form momentum, win rates, and scoring rates to improve prediction accuracy.
 - **Data Preprocessing:** Handles missing data and converts string-based percentage values to numerical format.
 - **Data Balancing:** Uses SMOTE (Synthetic Minority Oversampling Technique) to address class imbalance issues.
+- **Model Battle:** Compares the performance of different machine learning models (Random Forest, XGBoost) to select the best one for predictions.
 
 ### Data Sources
 - **Match Statistics:** Data scraped from Google Sports and other sources, stored in `dataset.json`.

@@ -433,7 +433,7 @@ def predict_next_round(model, scaler, next_round_file, classification_data, hist
             return ["No predictions available: Missing classification data for all matches."]
 
         # Assegurar que a ordem das colunas é a mesma do treinamento (IMPORTANTE!)
-        # Use feature_names_in_ para obter a ordem das features do modelo treinado
+        # Use feature_names_in_ para obter a ordem das features do model treinado
         if hasattr(model, 'feature_names_in_'):
             X_train_cols = model.feature_names_in_
             # Reindexa as colunas para garantir a ordem correta
@@ -444,7 +444,7 @@ def predict_next_round(model, scaler, next_round_file, classification_data, hist
         scaled_features = scaler.transform(features)
         probabilities = model.predict_proba(scaled_features)
 
-        # Ajuste para obter os resultados corretamente do classes_ do modelo
+        # Ajuste para obter os resultados corretamente do classes_ do model
         class_to_index = {cls: idx for idx, cls in enumerate(model.classes_)}
         home_index = class_to_index.get('H', -1)
         draw_index = class_to_index.get('D', -1)
