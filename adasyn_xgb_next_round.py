@@ -125,9 +125,9 @@ def prepare_features(df, classification_data):
 
 def train_adasyn_xgb_model(X, y):
     """
-    Treina o modelo XGBoost com balanceamento ADASYN e otimização de hiperparâmetros.
+    Treina o modelo XGBoost com balanceamento ADASYN e hiperparâmetros otimizados.
     """
-    print("Training the ADASYN + XGBoost model...")
+    print("Training the ADASYN + XGBoost model with optimized hyperparameters...")
     
     # Divisão em treino e teste para avaliação interna
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
@@ -146,21 +146,23 @@ def train_adasyn_xgb_model(X, y):
     y_train_res_num = pd.Series(y_train_resampled).map(CLASS_MAP).values
     y_test_num = pd.Series(y_test).map(CLASS_MAP).values
     
-    # Otimização e Treinamento do XGBoost
-    print("Training XGBoost with GridSearchCV to find the best parameters...")
-    param_grid_xgb = {
-        'n_estimators': [100, 200, 300],
-        'max_depth': [3, 5, 7],
-        'learning_rate': [0.01, 0.05, 0.1],
-        'subsample': [0.7, 0.8, 0.9]
+    # Definição dos melhores hiperparâmetros encontrados
+    best_params = {
+        'n_estimators': 500,
+        'max_depth': 7,
+        'learning_rate': 0.1,
+        'subsample': 0.9,
+        'colsample_bytree': 0.8,
+        'random_state': 42,
+        'use_label_encoder': False,
+        'eval_metric': 'mlogloss'
     }
     
-    xgb = XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='mlogloss')
-    grid_xgb = GridSearchCV(xgb, param_grid_xgb, cv=3, scoring='f1_macro', n_jobs=-1, verbose=1)
-    grid_xgb.fit(X_train_resampled, y_train_res_num)
-    
-    best_xgb = grid_xgb.best_estimator_
-    print(f"\nBest parameters found: {grid_xgb.best_params_}")
+    # Treinamento do XGBoost com os hiperparâmetros otimizados
+    print("Training XGBoost with optimized hyperparameters...")
+    best_xgb = XGBClassifier(**best_params)
+    best_xgb.fit(X_train_resampled, y_train_res_num)
+    print("\nOptimized hyperparameters applied.")
 
     # Avaliação final no conjunto de teste para referência
     y_pred = best_xgb.predict(X_test_scaled)
@@ -168,6 +170,7 @@ def train_adasyn_xgb_model(X, y):
     print(classification_report(y_test_num, y_pred, target_names=list(CLASS_MAP.keys())))
     
     return best_xgb, scaler
+
 
 # ==============================================================================
 # Função de Predição para a Próxima Rodada

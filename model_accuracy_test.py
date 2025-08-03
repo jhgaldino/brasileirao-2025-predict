@@ -298,38 +298,6 @@ def train_model(X, y, balancer='ros', model='xgb'):
     else:
         raise ValueError('model not recognized')
 
-def evaluate_model(model, X, y, model_type):
-    scores = cross_val_score(model, X, y if model_type == 'rf' else pd.Series(y).map(CLASS_MAP).values, cv=5, scoring='accuracy')
-    print(f"\nCross-validation scores: {scores}")
-    print(f"Average accuracy: {scores.mean():.2f} (+/- {scores.std() * 2:.2f})")
-    if model_type == 'rf':
-        y_pred = model.predict(X)
-        print("\nMatriz de confusão:")
-        print(confusion_matrix(y, y_pred))
-        print("\nRelatório de classificação:")
-        print(classification_report(y, y_pred))
-    else:
-        # Thresholds personalizados
-        y_proba = model.predict_proba(X)
-        thresholds = {'H': 0.40, 'D': 0.30, 'A': 0.30}  # Ajuste conforme necessário
-        y_pred = []
-        for probs in y_proba:
-            h, d, a = probs[CLASS_MAP['H']], probs[CLASS_MAP['D']], probs[CLASS_MAP['A']]
-            if d >= thresholds['D'] and d == max(h, d, a):
-                y_pred.append('D')
-            elif h >= thresholds['H'] and h == max(h, d, a):
-                y_pred.append('H')
-            elif a >= thresholds['A'] and a == max(h, d, a):
-                y_pred.append('A')
-            else:
-                # fallback: maior probabilidade
-                idx = np.argmax(probs)
-                y_pred.append(CLASS_MAP_INV[idx])
-        print("\nMatriz de confusão (com thresholds personalizados):")
-        print(confusion_matrix(y, y_pred))
-        print("\nRelatório de classificação:")
-        print(classification_report(y, y_pred))
-
 def predict_with_thresholds(model, X_test_scaled, thresholds):
     """
     Makes predictions using custom thresholds for each class.
@@ -439,6 +407,6 @@ def main():
         print(f"   F1-Score: {best_combination['f1_macro']:.4f}")
         print('------------------------------------------------------')
 
-# Não se esqueça de chamar a função main no final do seu script
+
 if __name__ == "__main__":
     main()

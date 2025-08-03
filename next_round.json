@@ -1,45 +1,45 @@
 {
-  "rodada": 17,
+  "rodada": 18,
   "partidas": [
     {
-      "mandante": "Fortaleza",
-      "visitante": "Bragantino"
+      "mandante": "Sport Recife",
+      "visitante": "Bahia"
     },
     {
       "mandante": "Mirassol",
-      "visitante": "EC Vitória"
-    },
-    {
-      "mandante": "Sport Recife",
-      "visitante": "Santos"
-    },
-    {
-      "mandante": "Botafogo",
-      "visitante": "Corinthians"
-    },
-    {
-      "mandante": "Palmeiras",
-      "visitante": "Grêmio"
-    },
-    {
-      "mandante": "Cruzeiro",
-      "visitante": "Ceará SC"
-    },
-    {
-      "mandante": "São Paulo",
-      "visitante": "Fluminense"
-    },
-    {
-      "mandante": "Bahia",
-      "visitante": "Juventude"
-    },
-    {
-      "mandante": "Internacional",
       "visitante": "Vasco da Gama"
     },
     {
-      "mandante": "Flamengo",
-      "visitante": "Atlético-MG"
+      "mandante": "Fluminense",
+      "visitante": "Grêmio"
+    },
+    {
+      "mandante": "Corinthians",
+      "visitante": "Fortaleza"
+    },
+    {
+      "mandante": "Botafogo",
+      "visitante": "Cruzeiro"
+    },
+    {
+      "mandante": "Ceará SC",
+      "visitante": "Flamengo"
+    },
+    {
+      "mandante": "Atlético-MG",
+      "visitante": "Bragantino"
+    },
+    {
+      "mandante": "EC Vitória",
+      "visitante": "Palmeiras"
+    },
+    {
+      "mandante": "Internacional",
+      "visitante": "São Paulo"
+    },
+    {
+      "mandante": "Santos",
+      "visitante": "Juventude"
     }
   ]
 }
