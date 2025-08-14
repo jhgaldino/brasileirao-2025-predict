@@ -1,123 +1,16 @@
 import pandas as pd
 import numpy as np
 import json
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import ADASYN  # Apenas ADASYN é importado
-from xgboost import XGBClassifier         # Apenas XGBoost é importado
+from imblearn.over_sampling import ADASYN
+from xgboost import XGBClassifier
 from sklearn.metrics import classification_report
+from common.data_utils import load_dataset, prepare_features_iterative, get_last5_form, get_h2h_history
 
 # Mapeamento de classes para o XGBoost (que prefere alvos numéricos)
 CLASS_MAP = {'H': 0, 'D': 1, 'A': 2}
 CLASS_MAP_INV = {0: 'H', 1: 'D', 2: 'A'}
-
-# ==============================================================================
-# Funções de Carregamento e Preparação de Dados
-# ==============================================================================
-
-def load_data():
-    """Carrega os dados históricos das partidas do dataset.json."""
-    try:
-        with open('dataset.json', 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        matches_data = []
-        for rodada in data['rodadas']:
-            for match in rodada['partidas']:
-                if 'estatisticas' not in match:
-                    continue
-                home_team = match['partida']['mandante']
-                away_team = match['partida']['visitante']
-                home_stats = match['estatisticas'].get(home_team)
-                away_stats = match['estatisticas'].get(away_team)
-                if not home_stats or not away_stats:
-                    continue
-                
-                def get_stat(stats, key, default=0):
-                    if key not in stats or not stats[key]: return default
-                    value = stats[key]
-                    return float(str(value).strip('%')) if isinstance(value, str) else float(value)
-
-                row = {
-                    'home_team': home_team, 'away_team': away_team,
-                    'home_possession': get_stat(home_stats, 'posse_de_bola', 50),
-                    'away_possession': get_stat(away_stats, 'posse_de_bola', 50),
-                    'home_shots': get_stat(home_stats, 'chutes'), 'away_shots': get_stat(away_stats, 'chutes'),
-                    'home_shots_target': get_stat(home_stats, 'chutes_a_gol'), 'away_shots_target': get_stat(away_stats, 'chutes_a_gol'),
-                    'home_corners': get_stat(home_stats, 'escanteios'), 'away_corners': get_stat(away_stats, 'escanteios'),
-                    'home_passes': get_stat(home_stats, 'passes'), 'away_passes': get_stat(away_stats, 'passes'),
-                    'home_pass_accuracy': get_stat(home_stats, 'precisao_de_passe', 75), 'away_pass_accuracy': get_stat(away_stats, 'precisao_de_passe', 75),
-                    'home_fouls': get_stat(home_stats, 'faltas'), 'away_fouls': get_stat(away_stats, 'faltas'),
-                    'home_yellow_cards': get_stat(home_stats, 'cartoes_amarelos'), 'away_yellow_cards': get_stat(away_stats, 'cartoes_amarelos'),
-                    'home_offsides': get_stat(home_stats, 'impedimentos'), 'away_offsides': get_stat(away_stats, 'impedimentos'),
-                    'home_red_cards': get_stat(home_stats, 'cartoes_vermelhos'), 'away_red_cards': get_stat(away_stats, 'cartoes_vermelhos'),
-                    'home_crosses': get_stat(home_stats, 'cruzamentos'), 'away_crosses': get_stat(away_stats, 'cruzamentos'),
-                    'home_cross_accuracy': get_stat(home_stats, 'precisao_cruzamento', 25), 'away_cross_accuracy': get_stat(away_stats, 'precisao_cruzamento', 25),
-                    'match_result': 'H' if match['partida']['placar']['mandante'] > match['partida']['placar']['visitante'] else 'A' if match['partida']['placar']['mandante'] < match['partida']['placar']['visitante'] else 'D'
-                }
-                matches_data.append(row)
-        return pd.DataFrame(matches_data)
-    except FileNotFoundError:
-        print("Error: 'dataset.json' file not found.")
-        return None
-
-def load_classification_data():
-    """Carrega os dados da tabela de classificação do classificacao.json."""
-    try:
-        with open('classificacao.json', 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"Error loading classificacao.json: {str(e)}")
-        return None
-
-def get_team_stats_from_table(team_name, classification_data):
-    """Busca as estatísticas de um time na tabela de classificação."""
-    if not classification_data or 'classificacao' not in classification_data: return {}
-    for team in classification_data['classificacao']:
-        if team['clube'] == team_name:
-            return team
-    return {}
-
-def prepare_features(df, classification_data):
-    """Prepara o dataframe com todas as features para o treinamento."""
-    # Adiciona colunas de classificação
-    for idx, row in df.iterrows():
-        home_stats = get_team_stats_from_table(row['home_team'], classification_data)
-        away_stats = get_team_stats_from_table(row['away_team'], classification_data)
-        
-        # Adiciona stats do time da casa
-        df.loc[idx, 'home_position'] = home_stats.get('posicao', 20)
-        df.loc[idx, 'home_points'] = home_stats.get('pts', 0)
-        df.loc[idx, 'home_played'] = home_stats.get('pj', 1)
-        
-        # Adiciona stats do time visitante
-        df.loc[idx, 'away_position'] = away_stats.get('posicao', 20)
-        df.loc[idx, 'away_points'] = away_stats.get('pts', 0)
-        df.loc[idx, 'away_played'] = away_stats.get('pj', 1)
-
-    # Cria features de diferença
-    df['points_diff'] = df['home_points'] - df['away_points']
-    df['position_diff'] = df['away_position'] - df['home_position'] # Posição menor é melhor
-
-    # Cria features de média de pontos (força)
-    home_played = df['home_played'].replace(0, 1)
-    away_played = df['away_played'].replace(0, 1)
-    df['home_strength'] = df['home_points'] / home_played
-    df['away_strength'] = df['away_points'] / away_played
-    df['strength_diff'] = df['home_strength'] - df['away_strength']
-    
-    feature_columns = [
-        'home_possession', 'away_possession', 'home_shots', 'away_shots', 'home_shots_target', 'away_shots_target',
-        'home_corners', 'away_corners', 'home_passes', 'away_passes', 'home_pass_accuracy', 'away_pass_accuracy',
-        'home_fouls', 'away_fouls', 'home_yellow_cards', 'away_yellow_cards', 'home_offsides', 'away_offsides',
-        'home_red_cards', 'away_red_cards', 'home_crosses', 'away_crosses', 'home_cross_accuracy', 'away_cross_accuracy',
-        'home_position', 'away_position', 'home_points', 'away_points', 'home_played', 'away_played',
-        'points_diff', 'position_diff', 'home_strength', 'away_strength', 'strength_diff'
-    ]
-    
-    X = df[feature_columns].fillna(0)
-    y = df['match_result']
-    
-    return X, y
 
 # ==============================================================================
 # Função de Treinamento do Modelo ADASYN + XGBoost
@@ -176,7 +69,7 @@ def train_adasyn_xgb_model(X, y):
 # Função de Predição para a Próxima Rodada
 # ==============================================================================
 
-def predict_next_round(model, scaler, next_round_file, classification_data):
+def predict_next_round(model, scaler, next_round_file, live_stats, historical_df, feature_columns):
     """
     Prevê os resultados para as partidas no arquivo next_round.json.
     """
@@ -197,28 +90,46 @@ def predict_next_round(model, scaler, next_round_file, classification_data):
         if not home_team or not away_team:
             continue
 
-        home_stats = get_team_stats_from_table(home_team, classification_data)
-        away_stats = get_team_stats_from_table(away_team, classification_data)
-        
-        row = {
-            'home_possession': 52, 'away_possession': 48, 'home_shots': 12, 'away_shots': 10,
-            'home_shots_target': 4, 'away_shots_target': 3, 'home_corners': 6, 'away_corners': 4,
-            'home_passes': 400, 'away_passes': 350, 'home_pass_accuracy': 80, 'away_pass_accuracy': 78,
-            'home_fouls': 15, 'away_fouls': 16, 'home_yellow_cards': 2.5, 'away_yellow_cards': 2.7,
-            'home_offsides': 2, 'away_offsides': 2.1, 'home_red_cards': 0.1, 'away_red_cards': 0.15,
-            'home_crosses': 18, 'away_crosses': 15, 'home_cross_accuracy': 25, 'away_cross_accuracy': 23,
-            'home_position': home_stats.get('posicao', 20), 'away_position': away_stats.get('posicao', 20),
-            'home_points': home_stats.get('pts', 0), 'away_points': away_stats.get('pts', 0),
-            'home_played': home_stats.get('pj', 1), 'away_played': away_stats.get('pj', 1)
-        }
-        
-        row['points_diff'] = row['home_points'] - row['away_points']
-        row['position_diff'] = row['away_position'] - row['home_position']
-        row['home_strength'] = row['home_points'] / max(1, row['home_played'])
-        row['away_strength'] = row['away_points'] / max(1, row['away_played'])
-        row['strength_diff'] = row['home_strength'] - row['away_strength']
+        home_s = live_stats[home_team]
+        away_s = live_stats[away_team]
 
-        features_df = pd.DataFrame([row])
+        # Criação da linha de features para a nova partida
+        row = {}        
+        # Features de estatísticas (usando médias históricas do time)
+        home_avg_stats = get_team_average_stats(home_team, historical_df)
+        away_avg_stats = get_team_average_stats(away_team, historical_df)
+
+        for stat, value in home_avg_stats.items():
+            row[f'home_{stat}'] = value if not pd.isna(value) else 0
+            row[f'away_{stat}'] = away_avg_stats.get(stat, 0) if not pd.isna(away_avg_stats.get(stat, 0)) else 0
+
+        # Features da tabela de classificação
+        row.update({
+            'home_points': home_s.get('pts', 0), 'away_points': away_s.get('pts', 0),
+            'home_wins': home_s.get('vit', 0), 'away_wins': away_s.get('vit', 0),
+            'home_draws': home_s.get('e', 0), 'away_draws': away_s.get('e', 0),
+            'home_losses': home_s.get('der', 0), 'away_losses': away_s.get('der', 0),
+            'home_goals_scored': home_s.get('gm', 0), 'away_goals_scored': away_s.get('gm', 0),
+            'home_goals_against': home_s.get('gc', 0), 'away_goals_against': away_s.get('gc', 0),
+            'home_goal_diff': home_s.get('sg', 0), 'away_goal_diff': away_s.get('sg', 0),
+            'home_played': home_s.get('pj', 1), 'away_played': away_s.get('pj', 1)
+        })
+        
+        # Features calculadas
+        home_played = max(1, row['home_played'])
+        away_played = max(1, row['away_played'])
+        row['home_last5_form'] = get_last5_form(home_team, historical_df, len(historical_df))
+        row['away_last5_form'] = get_last5_form(away_team, historical_df, len(historical_df))
+        row['strength_diff'] = (row['home_points'] / home_played) - (row['away_points'] / away_played)
+        row['form_momentum'] = row['home_last5_form'] - row['away_last5_form']
+        row['home_win_rate'] = row['home_wins'] / home_played
+        row['away_win_rate'] = row['away_wins'] / away_played
+        row['home_scoring_rate'] = row['home_goals_scored'] / home_played
+        row['away_scoring_rate'] = row['away_goals_scored'] / away_played
+        row['h2h_home_win_rate'] = get_h2h_history(home_team, away_team, historical_df, len(historical_df))
+
+        # Criar DataFrame com as features na ordem correta
+        features_df = pd.DataFrame([row])[feature_columns].fillna(0)
         features_scaled = scaler.transform(features_df)
         
         probabilities = model.predict_proba(features_scaled)[0]
@@ -233,6 +144,19 @@ def predict_next_round(model, scaler, next_round_file, classification_data):
     for pred in predictions:
         print(pred)
 
+def get_team_average_stats(team_name, historical_df):
+    """Calcula as estatísticas médias de um time com base nos dados históricos."""
+    team_stats = {}
+    # Coletando jogos em casa e fora
+    home_games = historical_df[historical_df['home_team'] == team_name]
+    away_games = historical_df[historical_df['away_team'] == team_name]
+
+    for stat in ['possession', 'shots', 'shots_target', 'corners', 'passes', 'pass_accuracy', 'fouls', 'yellow_cards', 'offsides', 'red_cards', 'crosses', 'cross_accuracy']:
+        home_mean = home_games[f'home_{stat}'].mean() if not home_games.empty else 0
+        away_mean = away_games[f'away_{stat}'].mean() if not away_games.empty else 0
+        team_stats[stat] = (home_mean + away_mean) / 2 # Média simples entre jogos em casa e fora
+    return team_stats
+
 # ==============================================================================
 # Função Principal de Execução
 # ==============================================================================
@@ -241,22 +165,21 @@ def main():
     """
     Orquestra o processo de treinamento e predição.
     """
-    # 1. Carregar dados históricos e de classificação
-    df = load_data()
-    classification_data = load_classification_data()
+    # 1. Carregar dados históricos
+    df = load_dataset()
 
-    if df is None or classification_data is None:
+    if df is None:
         print("Could not load data. Exiting.")
         return
         
     # 2. Preparar features para treinamento
-    X, y = prepare_features(df, classification_data)
+    X, y, feature_columns, live_stats = prepare_features_iterative(df)
     
     # 3. Treinar o modelo ADASYN + XGBoost
     model, scaler = train_adasyn_xgb_model(X, y)
     
     # 4. Fazer predições para a próxima rodada
-    predict_next_round(model, scaler, 'next_round.json', classification_data)
+    predict_next_round(model, scaler, 'next_round.json', live_stats, df, feature_columns)
 
 if __name__ == "__main__":
     main()

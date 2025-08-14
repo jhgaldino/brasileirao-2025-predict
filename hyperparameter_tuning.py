@@ -164,6 +164,16 @@ tuning_config = {
             'min_samples_split': [2, 5, 10],
             'min_samples_leaf': [1, 2, 4]
         }
+    },
+    'smotetomek_gb': {
+        'estimator': GradientBoostingClassifier(random_state=42),
+        'sampler': SMOTETomek(random_state=42),
+        'param_grid': {
+            'n_estimators': [100, 200, 300],
+            'learning_rate': [0.05, 0.1, 0.2],
+            'max_depth': [3, 5, 7],
+            'subsample': [0.8, 0.9, 1.0]
+        }
     }
 }
 

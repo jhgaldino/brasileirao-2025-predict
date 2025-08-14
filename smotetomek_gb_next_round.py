@@ -3,7 +3,7 @@ import numpy as np
 import json
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from imblearn.combine import SMOTETomek
 from common.data_utils import load_dataset, prepare_features_iterative, get_last5_form, get_h2h_history
 
@@ -12,30 +12,23 @@ CLASS_MAP_INV = {0: 'H', 1: 'D', 2: 'A'}
 
 def train_model(X, y):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-    
-    # 2. Normalização das features
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
-    
-    # 3. Balanceamento de classes com SMOTETomek
     print("Aplicando SMOTETomek para balancear os dados de treino...")
     smotetomek = SMOTETomek(random_state=42)
     X_train_resampled, y_train_resampled = smotetomek.fit_resample(X_train_scaled, y_train)
     print("Balanceamento concluído.")
-    
-    # Converte de volta para DataFrame para manter os nomes das colunas
     X_train_resampled = pd.DataFrame(X_train_resampled, columns=X.columns)
     X_test_scaled = pd.DataFrame(X_test_scaled, columns=X.columns)
     
-    # 4. Treinamento do model RandomForest
-    model = RandomForestClassifier(
-        n_estimators=300,
-        max_depth=10,
-        min_samples_split=5,
-        min_samples_leaf=2,
-        class_weight='balanced',
-        random_state=42
+    # Train the model
+    model = GradientBoostingClassifier(
+        n_estimators=200,
+        learning_rate=0.2,
+        max_depth=5,
+        random_state=42,
+        subsample=0.8
     )
     model.fit(X_train_resampled, y_train_resampled)
     
@@ -53,9 +46,7 @@ def evaluate_model(model, X, y):
     print(f"Acurácia Média: {scores.mean():.2f} (+/- {scores.std() * 2:.2f})")
 
 def get_team_average_stats(team_name, historical_df):
-    """Calcula as estatísticas médias de um time com base nos dados históricos."""
-    team_stats = {}
-    # Coletando jogos em casa e fora
+    team_stats = {} 
     home_games = historical_df[historical_df['home_team'] == team_name]
     away_games = historical_df[historical_df['away_team'] == team_name]
 
@@ -159,6 +150,7 @@ def predict_next_round(model, scaler, next_round_file, live_stats, historical_df
     except Exception as e:
         print(f"Erro ao processar predições: {str(e)}")
         return None
+
 
 def main():
     """Main function to execute the prediction workflow."""
