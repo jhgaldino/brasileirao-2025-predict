@@ -8,7 +8,7 @@ from sklearn.metrics import f1_score
 import warnings
 
 # Import samplers
-from imblearn.over_sampling import ADASYN, RandomOverSampler
+from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE
 from imblearn.combine import SMOTETomek
 
 # Import models
@@ -168,6 +168,16 @@ tuning_config = {
     'smotetomek_gb': {
         'estimator': GradientBoostingClassifier(random_state=42),
         'sampler': SMOTETomek(random_state=42),
+        'param_grid': {
+            'n_estimators': [100, 200, 300],
+            'learning_rate': [0.05, 0.1, 0.2],
+            'max_depth': [3, 5, 7],
+            'subsample': [0.8, 0.9, 1.0]
+        }
+    },
+    'smote_gb': {
+        'estimator': GradientBoostingClassifier(random_state=42),
+        'sampler': SMOTE(random_state=42),  # Usando ADASYN como substituto para SMOTE
         'param_grid': {
             'n_estimators': [100, 200, 300],
             'learning_rate': [0.05, 0.1, 0.2],

@@ -4,3 +4,4 @@ scikit-learn
 imblearn
 smote-tomek
 xgboost
+f1-score
