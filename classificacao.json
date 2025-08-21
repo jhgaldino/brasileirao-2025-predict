@@ -204,11 +204,11 @@
       "pj": 18,
       "vit": 5,
       "e": 4,
-      "der": 9,
+      "der": 10,
       "gm": 25,
       "gc": 24,
       "sg": 1,
-      "ultimas_5": ["E", "E", "D", "E", "V"]
+      "ultimas_5": ["E", "D", "E", "V", "D"]
     },
     {
       "posicao": 17,
@@ -226,15 +226,15 @@
     {
       "posicao": 18,
       "clube": "Juventude",
-      "pts": 15,
+      "pts": 18,
       "pj": 18,
-      "vit": 4,
+      "vit": 5,
       "e": 3,
       "der": 11,
-      "gm": 15,
+      "gm": 17,
       "gc": 38,
       "sg": -23,
-      "ultimas_5": ["D", "D", "D", "V", "E"]
+      "ultimas_5": ["D", "D", "V", "E", "V"]
     },
     {
       "posicao": 19,

@@ -5222,6 +5222,46 @@
       "precisao_cruzamento": "10%"
     }
   }
+},
+{
+  "partida": {
+    "mandante": "Juventude",
+    "visitante": "Vasco da Gama",
+    "placar": {
+      "mandante": 2,
+      "visitante": 0
+    }
+  },
+  "estatisticas": {
+    "Juventude": {
+      "chutes": 10,
+      "chutes_a_gol": 5,
+      "posse_de_bola": "23%",
+      "passes": 255,
+      "precisao_de_passe": "79%",
+      "faltas": 9,
+      "cartoes_amarelos": 2,
+      "cartoes_vermelhos": 0,
+      "impedimentos": 3,
+      "escanteios": 1,
+      "cruzamentos": 7,
+      "precisao_cruzamento": "14%"
+    },
+    "Vasco da Gama": {
+      "chutes": 14,
+      "chutes_a_gol": 2,
+      "posse_de_bola": "77%",
+      "passes": 848,
+      "precisao_de_passe": "94%",
+      "faltas": 11,
+      "cartoes_amarelos": 1,
+      "cartoes_vermelhos": 0,
+      "impedimentos": 0,
+      "escanteios": 5,
+      "cruzamentos": 27,
+      "precisao_cruzamento": "7%"
+    }
+  }
 }
                ]
             },
