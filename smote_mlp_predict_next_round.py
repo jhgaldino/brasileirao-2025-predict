@@ -1,42 +1,63 @@
 import pandas as pd
 import numpy as np
 import json
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import RandomOverSampler
-from sklearn.ensemble import GradientBoostingClassifier
+from imblearn.over_sampling import SMOTE
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report
 from common.data_utils import load_dataset, prepare_features_iterative, get_last5_form, get_h2h_history
 
-# class labels
+# Mapeamento de classes
 CLASS_MAP = {'H': 0, 'D': 1, 'A': 2}
 CLASS_MAP_INV = {0: 'H', 1: 'D', 2: 'A'}
 
 # ==============================================================================
-# NOVAS FUNÇÕES ADICIONADAS PARA COMPLETAR O SCRIPT
+# Função de Treinamento do Modelo SMOTE + MLP
 # ==============================================================================
 
-def train_gb_ros_model(X, y):
+def train_smote_mlp_model(X, y):
     """
-    Treina o modelo Gradient Boosting com balanceamento RandomOverSampler.
+    Treina o modelo MLPClassifier com balanceamento SMOTE.
     """
-    print("Treinando o modelo Gradient Boosting com RandomOverSampler...")
+    print("Training the SMOTE + MLP model...")
+    
+    # Divisão em treino e teste para avaliação interna
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
     # Normalização dos dados
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
-
-    # Balanceamento com RandomOverSampler
-    ros = RandomOverSampler(random_state=42)
-    X_resampled, y_resampled = ros.fit_resample(X_scaled, y)
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
     
+    # Balanceamento com SMOTE
+    print("Applying SMOTE for data balancing...")
+    smote = SMOTE(random_state=42)
+    X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
+
     # Mapeia os resultados (H, D, A) para números (0, 1, 2)
-    y_resampled_num = pd.Series(y_resampled).map(CLASS_MAP).values
-
-    # Treinamento do modelo
-    model = GradientBoostingClassifier(n_estimators=173, learning_rate=0.062232149193467826, max_depth=3, random_state=42, subsample=1.0)
-    model.fit(X_resampled, y_resampled_num)
+    y_train_res_num = pd.Series(y_train_resampled).map(CLASS_MAP).values
+    y_test_num = pd.Series(y_test).map(CLASS_MAP).values
     
-    print("Modelo treinado com sucesso.")
-    return model, scaler
+    # Definição do modelo MLP
+    mlp = MLPClassifier(hidden_layer_sizes=(100, ), max_iter=500, random_state=42, 
+                        activation='relu', solver='adam', alpha=0.001295942459383017, learning_rate_init=0.08589138242660839)
+    
+    # Treinamento do MLP
+    print("Training MLP Classifier...")
+    mlp.fit(X_train_resampled, y_train_res_num)
+    print("\nMLP model trained.")
+
+    # Avaliação final no conjunto de teste para referência
+    y_pred = mlp.predict(X_test_scaled)
+    print("\nFinal Model Performance on Internal Test Set:")
+    print(classification_report(y_test_num, y_pred, target_names=list(CLASS_MAP.keys())))
+    
+    return mlp, scaler
+
+# ==============================================================================
+# Função de Predição para a Próxima Rodada
+# ==============================================================================
 
 def predict_next_round(model, scaler, next_round_file, live_stats, live_ewma_stats, historical_df, feature_columns):
     """
@@ -47,7 +68,7 @@ def predict_next_round(model, scaler, next_round_file, live_stats, live_ewma_sta
         with open(next_round_file, 'r', encoding='utf-8') as f:
             next_round_data = json.load(f)
     except FileNotFoundError:
-        print(f"Error: File '{next_round_file}' not found.")
+        print(f"Error: '{next_round_file}' not found.")
         return
 
     predictions = []
@@ -98,22 +119,26 @@ def predict_next_round(model, scaler, next_round_file, live_stats, live_ewma_sta
     for pred in predictions:
         print(pred)
 
+# ==============================================================================
+# Função Principal de Execução
+# ==============================================================================
+
 def main():
     """
-    Função principal que orquestra o processo de treinamento e predição.
+    Orquestra o processo de treinamento e predição.
     """
     # 1. Carregar dados históricos
     df = load_dataset()
 
     if df is None:
-        print("It was not possible to load the data.")
+        print("Could not load data. Exiting.")
         return
         
     # 2. Preparar features para treinamento
     X, y, feature_columns, live_stats, live_ewma_stats = prepare_features_iterative(df)
     
-    # 3. Treinar o modelo GB + ROS
-    model, scaler = train_gb_ros_model(X, y)
+    # 3. Treinar o modelo SMOTE + MLP
+    model, scaler = train_smote_mlp_model(X, y)
     
     # 4. Fazer predições para a próxima rodada
     predict_next_round(model, scaler, 'next_round.json', live_stats, live_ewma_stats, df, feature_columns)

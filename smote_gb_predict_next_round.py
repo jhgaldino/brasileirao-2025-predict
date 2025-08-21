@@ -32,26 +32,13 @@ def train_gb_smote_model(X, y):
     y_resampled_num = pd.Series(y_resampled).map(CLASS_MAP).values
 
     # Treinamento do modelo
-    model = GradientBoostingClassifier(n_estimators=300, learning_rate=0.1, max_depth=5, random_state=42, subsample=0.8)
+    model = GradientBoostingClassifier(n_estimators=364, learning_rate=0.12265764356910785, max_depth=4, random_state=42, subsample=0.7047898756660642)
     model.fit(X_resampled, y_resampled_num)
     
     print("Modelo treinado com sucesso.")
     return model, scaler
 
-def get_team_average_stats(team_name, historical_df):
-    """Calcula as estatísticas médias de um time com base nos dados históricos."""
-    team_stats = {}
-    # Coletando jogos em casa e fora
-    home_games = historical_df[historical_df['home_team'] == team_name]
-    away_games = historical_df[historical_df['away_team'] == team_name]
-
-    for stat in ['possession', 'shots', 'shots_target', 'corners', 'passes', 'pass_accuracy', 'fouls', 'yellow_cards', 'offsides', 'red_cards', 'crosses', 'cross_accuracy']:
-        home_mean = home_games[f'home_{stat}'].mean() if not home_games.empty else 0
-        away_mean = away_games[f'away_{stat}'].mean() if not away_games.empty else 0
-        team_stats[stat] = (home_mean + away_mean) / 2 # Média simples entre jogos em casa e fora
-    return team_stats
-
-def predict_next_round(model, scaler, next_round_file, live_stats, historical_df, feature_columns):
+def predict_next_round(model, scaler, next_round_file, live_stats, live_ewma_stats, historical_df, feature_columns):
     """
     Prevê os resultados para as partidas no arquivo next_round.json.
     """
@@ -64,53 +51,38 @@ def predict_next_round(model, scaler, next_round_file, live_stats, historical_df
         return
 
     predictions = []
+    stat_features = list(live_ewma_stats[list(live_ewma_stats.keys())[0]].keys())
 
     for match in next_round_data.get('partidas', []):
         home_team = match.get('mandante')
         away_team = match.get('visitante')
 
         if not home_team or not away_team:
+            print(f"Skipping match with missing team names: {match}")
             continue
 
+        if home_team not in live_stats or away_team not in live_stats:
+            print(f"Skipping match because a team is not in live_stats: {home_team} or {away_team}")
+            continue
+
+        row = {}
+        # Features de EWMA
+        for stat in stat_features:
+            row[f'home_{stat}_ewma'] = live_ewma_stats[home_team][stat]
+            row[f'away_{stat}_ewma'] = live_ewma_stats[away_team][stat]
+
+        # Features de classificação e outras
         home_s = live_stats[home_team]
         away_s = live_stats[away_team]
-        
-        # Criação da linha de features para a nova partida
-        row = {}        
-        # Features de estatísticas (usando médias históricas do time)
-        home_avg_stats = get_team_average_stats(home_team, historical_df)
-        away_avg_stats = get_team_average_stats(away_team, historical_df)
+        home_played = max(1, home_s['pj'])
+        away_played = max(1, away_s['pj'])
 
-        for stat, value in home_avg_stats.items():
-            row[f'home_{stat}'] = value if not pd.isna(value) else 0
-            row[f'away_{stat}'] = away_avg_stats.get(stat, 0) if not pd.isna(away_avg_stats.get(stat, 0)) else 0
-
-        # Features da tabela de classificação
-        row.update({
-            'home_points': home_s.get('pts', 0), 'away_points': away_s.get('pts', 0),
-            'home_wins': home_s.get('vit', 0), 'away_wins': away_s.get('vit', 0),
-            'home_draws': home_s.get('e', 0), 'away_draws': away_s.get('e', 0),
-            'home_losses': home_s.get('der', 0), 'away_losses': away_s.get('der', 0),
-            'home_goals_scored': home_s.get('gm', 0), 'away_goals_scored': away_s.get('gm', 0),
-            'home_goals_against': home_s.get('gc', 0), 'away_goals_against': away_s.get('gc', 0),
-            'home_goal_diff': home_s.get('sg', 0), 'away_goal_diff': away_s.get('sg', 0),
-            'home_played': home_s.get('pj', 1), 'away_played': away_s.get('pj', 1)
-        })
-        
-        # Features calculadas
-        home_played = max(1, row['home_played'])
-        away_played = max(1, row['away_played'])
         row['home_last5_form'] = get_last5_form(home_team, historical_df, len(historical_df))
         row['away_last5_form'] = get_last5_form(away_team, historical_df, len(historical_df))
-        row['strength_diff'] = (row['home_points'] / home_played) - (row['away_points'] / away_played)
+        row['strength_diff'] = (home_s['pts'] / home_played) - (away_s['pts'] / away_played)
         row['form_momentum'] = row['home_last5_form'] - row['away_last5_form']
-        row['home_win_rate'] = row['home_wins'] / home_played
-        row['away_win_rate'] = row['away_wins'] / away_played
-        row['home_scoring_rate'] = row['home_goals_scored'] / home_played
-        row['away_scoring_rate'] = row['away_goals_scored'] / away_played
         row['h2h_home_win_rate'] = get_h2h_history(home_team, away_team, historical_df, len(historical_df))
 
-        # Criar DataFrame com as features na ordem correta
         features_df = pd.DataFrame([row])[feature_columns].fillna(0)
         features_scaled = scaler.transform(features_df)
         
@@ -138,13 +110,13 @@ def main():
         return
         
     # 2. Preparar features para treinamento
-    X, y, feature_columns, live_stats = prepare_features_iterative(df)
+    X, y, feature_columns, live_stats, live_ewma_stats = prepare_features_iterative(df)
     
     # 3. Treinar o modelo GB + SMOTE
     model, scaler = train_gb_smote_model(X, y)
     
     # 4. Fazer predições para a próxima rodada
-    predict_next_round(model, scaler, 'next_round.json', live_stats, df, feature_columns)
+    predict_next_round(model, scaler, 'next_round.json', live_stats, live_ewma_stats, df, feature_columns)
 
 if __name__ == "__main__":
     main()

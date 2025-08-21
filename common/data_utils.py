@@ -80,85 +80,82 @@ def get_h2h_history(home_team, away_team, df, current_index):
     h2h = matches[((matches['home_team'] == home_team) & (matches['away_team'] == away_team)) |
                   ((matches['home_team'] == away_team) & (matches['away_team'] == home_team))]
     if h2h.empty: return 0.0
-    home_team_wins = ((h2h['home_team'] == home_team) & (h2h['match_result'] == 'H')).sum() + \
-                     ((h2h['away_team'] == home_team) & (h2h['match_result'] == 'A')).sum()
+    home_team_wins = (((h2h['home_team'] == home_team) & (h2h['match_result'] == 'H')).sum() +
+                     ((h2h['away_team'] == home_team) & (h2h['match_result'] == 'A')).sum())
     total = len(h2h)
     return home_team_wins / total if total > 0 else 0.0
 
-def prepare_features_iterative(df):
-    """
-    Prepara as features de forma iterativa para evitar data leakage,
-    calculando estatísticas de classificação "ao vivo" a cada rodada.
-    """
+def prepare_features_iterative(df, ewma_span=5):
     df = df.copy()
 
-    # Mapeia chaves de estatísticas para nomes de colunas descritivos
-    name_map = {
-        'pts': 'points', 'pj': 'played', 'vit': 'wins', 'e': 'draws',
-        'der': 'losses', 'gm': 'goals_scored', 'gc': 'goals_against', 'sg': 'goal_diff'
-    }
-    classification_columns = []
-    for key in name_map.values():
-        classification_columns.append(f'home_{key}')
-        classification_columns.append(f'away_{key}')
+    # Dicionários para manter o estado "ao vivo"
+    live_stats = {}
+    live_ewma_stats = {}
+    all_teams = pd.concat([df['home_team'], df['away_team']]).unique()
 
-    # Lista completa de features que serão geradas
-    feature_columns = [
-        'home_possession', 'away_possession', 'home_shots', 'away_shots', 'home_shots_target', 'away_shots_target',
-        'home_corners', 'away_corners', 'home_passes', 'away_passes', 'home_pass_accuracy', 'away_pass_accuracy',
-        'home_fouls', 'away_fouls', 'home_yellow_cards', 'away_yellow_cards', 'home_offsides', 'away_offsides',
-        'home_red_cards', 'away_red_cards', 'home_crosses', 'away_crosses', 'home_cross_accuracy', 'away_cross_accuracy'
-    ] + classification_columns + [
-        'strength_diff', 'form_momentum', 'home_win_rate', 'away_win_rate',
-        'home_scoring_rate', 'away_scoring_rate', 'home_last5_form', 'away_last5_form', 'h2h_home_win_rate'
+    # Nomes das estatísticas para cálculo da EWMA
+    stat_features = [
+        'possession', 'shots', 'shots_target', 'corners', 'passes', 'pass_accuracy',
+        'fouls', 'yellow_cards', 'offsides', 'red_cards', 'crosses', 'cross_accuracy'
     ]
 
-    # Inicializa colunas de features com 0.0 para evitar erros
-    for col in feature_columns:
-        if col not in df.columns:
-            df[col] = 0.0
-
-    # Dicionário para manter o estado da classificação "ao vivo"
-    live_stats = {}
-    all_teams = pd.concat([df['home_team'], df['away_team']]).unique()
+    # Inicializa os dicionários de estado
     for team in all_teams:
         live_stats[team] = {'pts': 0, 'pj': 0, 'vit': 0, 'e': 0, 'der': 0, 'gm': 0, 'gc': 0, 'sg': 0}
+        live_ewma_stats[team] = {stat: 0.0 for stat in stat_features}
+
+    # Inicializa as colunas de features no DataFrame
+    for stat in stat_features:
+        df[f'home_{stat}_ewma'] = 0.0
+        df[f'away_{stat}_ewma'] = 0.0
 
     # Itera sobre o dataframe para calcular as features de forma temporalmente correta
     for idx, row in df.iterrows():
         home_team = row['home_team']
         away_team = row['away_team']
 
-        # Preenche as features com os dados ANTES da partida atual
-        for stat_key, col_suffix in name_map.items():
-            df.loc[idx, f'home_{col_suffix}'] = live_stats[home_team][stat_key]
-            df.loc[idx, f'away_{col_suffix}'] = live_stats[away_team][stat_key]
+        # 1. Atribui as features com os dados ANTES da partida atual
+        for stat in stat_features:
+            df.loc[idx, f'home_{stat}_ewma'] = live_ewma_stats[home_team][stat]
+            df.loc[idx, f'away_{stat}_ewma'] = live_ewma_stats[away_team][stat]
 
-        # Calcula features derivadas com os dados pré-partida
+        # ... (cálculo de outras features como antes)
         home_played = max(1, live_stats[home_team]['pj'])
         away_played = max(1, live_stats[away_team]['pj'])
-
         df.loc[idx, 'home_last5_form'] = get_last5_form(home_team, df, idx)
         df.loc[idx, 'away_last5_form'] = get_last5_form(away_team, df, idx)
         df.loc[idx, 'h2h_home_win_rate'] = get_h2h_history(home_team, away_team, df, idx)
-
         df.loc[idx, 'strength_diff'] = (live_stats[home_team]['pts'] / home_played) - (live_stats[away_team]['pts'] / away_played)
         df.loc[idx, 'form_momentum'] = df.loc[idx, 'home_last5_form'] - df.loc[idx, 'away_last5_form']
-        df.loc[idx, 'home_win_rate'] = live_stats[home_team]['vit'] / home_played
-        df.loc[idx, 'away_win_rate'] = live_stats[away_team]['vit'] / away_played
-        df.loc[idx, 'home_scoring_rate'] = live_stats[home_team]['gm'] / home_played
-        df.loc[idx, 'away_scoring_rate'] = live_stats[away_team]['gm'] / away_played
 
-        # Atualiza as estatísticas "ao vivo" com o resultado da partida atual
+        # 2. Atualiza os dicionários de estado com os resultados da partida atual
+        # Atualiza EWMA
+        alpha = 2 / (ewma_span + 1)
+        for stat in stat_features:
+            # Atualiza time da casa
+            current_home_stat = row[f'home_{stat}']
+            old_home_ewma = live_ewma_stats[home_team][stat]
+            if old_home_ewma == 0.0: # Primeira partida do time
+                live_ewma_stats[home_team][stat] = current_home_stat
+            else:
+                live_ewma_stats[home_team][stat] = alpha * current_home_stat + (1 - alpha) * old_home_ewma
+            
+            # Atualiza time visitante
+            current_away_stat = row[f'away_{stat}']
+            old_away_ewma = live_ewma_stats[away_team][stat]
+            if old_away_ewma == 0.0: # Primeira partida do time
+                live_ewma_stats[away_team][stat] = current_away_stat
+            else:
+                live_ewma_stats[away_team][stat] = alpha * current_away_stat + (1 - alpha) * old_away_ewma
+
+        # Atualiza estatísticas da tabela
         home_goals = row['home_goals']
         away_goals = row['away_goals']
-
         live_stats[home_team]['pj'] += 1; live_stats[away_team]['pj'] += 1
         live_stats[home_team]['gm'] += home_goals; live_stats[away_team]['gm'] += away_goals
         live_stats[home_team]['gc'] += away_goals; live_stats[away_team]['gc'] += home_goals
         live_stats[home_team]['sg'] = live_stats[home_team]['gm'] - live_stats[home_team]['gc']
         live_stats[away_team]['sg'] = live_stats[away_team]['gm'] - live_stats[away_team]['gc']
-
         if row['match_result'] == 'H':
             live_stats[home_team]['pts'] += 3; live_stats[home_team]['vit'] += 1; live_stats[away_team]['der'] += 1
         elif row['match_result'] == 'A':
@@ -166,5 +163,9 @@ def prepare_features_iterative(df):
         else:
             live_stats[home_team]['pts'] += 1; live_stats[away_team]['pts'] += 1; live_stats[home_team]['e'] += 1; live_stats[away_team]['e'] += 1
 
-    return df[feature_columns].fillna(0), df['match_result'], feature_columns, live_stats
+    # Define as colunas de features a serem usadas no modelo
+    feature_columns = ([f'home_{stat}_ewma' for stat in stat_features] +
+                      [f'away_{stat}_ewma' for stat in stat_features] +
+                      ['strength_diff', 'form_momentum', 'home_last5_form', 'away_last5_form', 'h2h_home_win_rate'])
 
+    return df[feature_columns].fillna(0), df['match_result'], feature_columns, live_stats, live_ewma_stats

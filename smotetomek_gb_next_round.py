@@ -24,11 +24,11 @@ def train_model(X, y):
     
     # Train the model
     model = GradientBoostingClassifier(
-        n_estimators=200,
-        learning_rate=0.2,
-        max_depth=5,
+        n_estimators=235,
+        learning_rate=0.20737738732010347,
+        max_depth=4,
         random_state=42,
-        subsample=0.8
+        subsample=0.7016566351370807
     )
     model.fit(X_train_resampled, y_train_resampled)
     
