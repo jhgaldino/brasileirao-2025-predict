@@ -255,11 +255,13 @@ def train_model(X, y):
     smote = SMOTE(random_state=42)
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train_scaled, y_train)
     
-    X_train_resampled = pd.DataFrame(X_train_resampled, columns=feature_columns)
-    X_test_scaled = pd.DataFrame(X_test_scaled, columns=feature_columns)
+    # X_train_resampled and X_test_scaled are already numpy arrays from scaler and SMOTE
+    # No need to convert back to DataFrame for fitting if we want to avoid feature name warnings
+    # X_train_resampled = pd.DataFrame(X_train_resampled, columns=feature_columns)
+    # X_test_scaled = pd.DataFrame(X_test_scaled, columns=feature_columns)
     
-    X_train_resampled = X_train_resampled[feature_columns]
-    X_test_scaled = X_test_scaled[feature_columns]
+    # X_train_resampled = X_train_resampled[feature_columns]
+    # X_test_scaled = X_test_scaled[feature_columns]
     
     # Train the model
     model = RandomForestClassifier(
@@ -304,7 +306,7 @@ def train_ensemble(X, y):
     ], axis=0)
 
 def evaluate_model(model, X, y):
-    scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+    scores = cross_val_score(model, X.values, y, cv=5, scoring='accuracy')
     print(f"\nCross-validation scores: {scores}")
     print(f"Average accuracy: {scores.mean():.2f} (+/- {scores.std() * 2:.2f})")
 
@@ -638,7 +640,7 @@ def main():
             print(f"{feature}: {importance}")
 
         # Make predictions for next round
-        predictions = predict_next_round(model, scaler, 'next_round.json', classification_data, historical_team_data)
+        predictions = predict_next_round(model, scaler, 'next_round.json', classification_data, historical_team_data, feature_names)
         if predictions:
             for pred in predictions:
                 print(pred)
