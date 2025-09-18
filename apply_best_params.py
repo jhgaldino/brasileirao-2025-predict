@@ -1,6 +1,7 @@
-import pandas as pd
-import numpy as np
 import json
+import os
+from glob import glob
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import GradientBoostingClassifier
@@ -10,13 +11,42 @@ from common.data_utils import load_dataset, prepare_features_iterative, get_last
 CLASS_MAP = {'H': 0, 'D': 1, 'A': 2}
 CLASS_MAP_INV = {0: 'H', 1: 'D', 2: 'A'}
 
-# ==============================================================================
-# NOVAS FUNÇÕES ADICIONADAS PARA COMPLETAR O SCRIPT
-# ==============================================================================
-
-def train_gb_smote_model(X, y):
+def load_best_smote_gb_params():
     """
-    Treina o modelo Gradient Boosting com balanceamento SMOTE.
+    Carrega os melhores parâmetros para o modelo SMOTE + Gradient Boosting.
+    """
+    results_dir = "optimization_results"
+    if not os.path.exists(results_dir):
+        print("Diretório de resultados não encontrado. Usando parâmetros padrão.")
+        return None
+    
+    # Procura por arquivos do modelo smote_gb
+    smote_gb_files = glob(f"{results_dir}/smote_gb_best_params_*.json")
+    
+    if not smote_gb_files:
+        print("Nenhum resultado de otimização encontrado para smote_gb. Usando parâmetros padrão.")
+        return None
+    
+    # Pega o arquivo mais recente
+    latest_file = max(smote_gb_files, key=os.path.getctime)
+    
+    try:
+        with open(latest_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        print(f"Carregando parâmetros otimizados de: {latest_file}")
+        print(f"CV Score: {data['cv_score']:.4f}")
+        print(f"Test Score: {data['test_score']:.4f}")
+        
+        return data['best_params']
+    
+    except Exception as e:
+        print(f"Erro ao carregar parâmetros: {e}")
+        return None
+
+def train_optimized_gb_smote_model(X, y, best_params=None):
+    """
+    Treina o modelo Gradient Boosting com SMOTE usando os melhores parâmetros encontrados.
     """
     print("Treinando o modelo Gradient Boosting com SMOTE...")
 
@@ -31,8 +61,32 @@ def train_gb_smote_model(X, y):
     # Mapeia os resultados (H, D, A) para números (0, 1, 2)
     y_resampled_num = pd.Series(y_resampled).map(CLASS_MAP).values
 
-    # Treinamento do modelo
-    model = GradientBoostingClassifier(n_estimators=165, learning_rate=0.09015555039236096, max_depth=10, random_state=42, subsample=0.756527587529629)
+    # Configuração do modelo com parâmetros otimizados
+    if best_params:
+        print("Usando parâmetros otimizados:")
+        for param, value in best_params.items():
+            print(f"  {param}: {value}")
+        
+        model = GradientBoostingClassifier(
+            random_state=42,
+            **best_params
+        )
+    else:
+        print("Usando parâmetros padrão (otimizados manualmente):")
+        default_params = {
+            'n_estimators': 165,
+            'learning_rate': 0.09015555039236096,
+            'max_depth': 10,
+            'subsample': 0.756527587529629
+        }
+        for param, value in default_params.items():
+            print(f"  {param}: {value}")
+        
+        model = GradientBoostingClassifier(
+            random_state=42,
+            **default_params
+        )
+    
     model.fit(X_resampled, y_resampled_num)
     
     print("Modelo treinado com sucesso.")
@@ -100,22 +154,29 @@ def predict_next_round(model, scaler, next_round_file, live_stats, live_ewma_sta
 
 def main():
     """
-    Função principal que orquestra o processo de treinamento e predição.
+    Função principal que usa os melhores parâmetros encontrados na otimização.
     """
-    # 1. Carregar dados históricos
+    print("="*60)
+    print("MODELO COM PARÂMETROS OTIMIZADOS")
+    print("="*60)
+    
+    # 1. Carregar melhores parâmetros
+    best_params = load_best_smote_gb_params()
+    
+    # 2. Carregar dados históricos
     df = load_dataset()
 
     if df is None:
         print("It was not possible to load the data.")
         return
         
-    # 2. Preparar features para treinamento
+    # 3. Preparar features para treinamento
     X, y, feature_columns, live_stats, live_ewma_stats = prepare_features_iterative(df)
     
-    # 3. Treinar o modelo GB + SMOTE
-    model, scaler = train_gb_smote_model(X, y)
+    # 4. Treinar o modelo GB + SMOTE com parâmetros otimizados
+    model, scaler = train_optimized_gb_smote_model(X, y, best_params)
     
-    # 4. Fazer predições para a próxima rodada
+    # 5. Fazer predições para a próxima rodada
     predict_next_round(model, scaler, 'next_round.json', live_stats, live_ewma_stats, df, feature_columns)
 
 if __name__ == "__main__":
